@@ -15,8 +15,7 @@ our_path = os.path.abspath(os.curdir)
 our_path = our_path + '/datasets/ecg_2020-06-01.csv'
 print(our_path)
 df = pd.read_csv(our_path, header=9, usecols = ['Unit'])
-sampling_freq = df.iloc[6,0]
-#period = 1/sampling_freq
+
 
 #plot#
 real_freq = len(df)/30
