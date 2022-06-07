@@ -5,8 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
-import os
 import yellowbrick
+import os
 import pickle
 
 from matplotlib.collections import PathCollection
