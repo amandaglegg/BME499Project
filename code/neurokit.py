@@ -63,7 +63,7 @@ signal, waves = nk.ecg_delineate(ecg_signal_fake, rpeaks2, sampling_rate= 250, m
 # Printing R peaks
 # print(_, rpeaks1)
 # print(_, rpeaks2)
-#%%
+
 #convert dictionary to list
 data1 = list(rpeaks1.values())
 data2 = list(rpeaks2.values())
@@ -76,10 +76,16 @@ print(data1)
 data2.pop()
 print(data2)
 
-#ST Segment length based on sampling rate (# of samples) (avg duration = 120ms from paper)
+# ST Segment length based on sampling rate (# of samples) (avg duration = 120ms from paper)
 STlen = real_freq * 0.12
 ST_len = int(STlen)
 print(ST_len)
+
+#Fake ST segment length
+sampling_rate = 250
+STlenf = sampling_rate * 0.12
+ST_lenf = int(STlenf)
+print(ST_lenf)
 
 # number of samples after the R peak to find start of ST segment
 STstartsam = real_freq * 0.06
@@ -102,8 +108,6 @@ for x in STstart_index:
     STend_index.append(x + ST_len)
 Stend_indext = tuple(STend_index)
 STend = ecg_signal_real[Stend_indext] #get the value at every index in the ecg_signal real
-
-#Checks
 #print("Stend")
 #print(STend)
 #print("ecg signal")
@@ -111,14 +115,26 @@ STend = ecg_signal_real[Stend_indext] #get the value at every index in the ecg_s
 #print("ststart ")
 #print(STstart)
 
-#%% ST slope assesment (up/down/flat) use the angles instead and make the ST slope the end and for loop
-
-if (STend - STstart) < 0:
-    Stslope = "downsloping"
-elif (STend - STstart) > 0:
-    Stslope = "upsloping"
-else: 
-    Stslope ="flat"
-print(Stslope)
+# ST slope assesment (up/down/flat) use the angles instead and make the ST slope the end and for loop
+i = 0
+Values = [0,0,0]
+while i < len(STstart):
+    if (STend[i] - STstart[i]) < 0: #down
+        Values[0] +=1
+    elif (STend[i] - STstart[i]) > 0: #up
+        Values[1] +=1
+    else: #flat
+        Values[2] +=1
+    i+=1
+    
+# the slope is the highest of the 3
+index_max= np.argmax(Values)
+if index_max == 0:
+    STslope = "downsloping"
+elif index_max == 1:
+    STslope = "upsloping"
+else:
+    STslope = "flat"
+print(STslope)
 
 
