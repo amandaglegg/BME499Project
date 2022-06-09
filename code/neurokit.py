@@ -5,6 +5,7 @@ import neurokit2 as nk
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import math
 import seaborn as sns
 import os
 from sklearn import preprocessing
