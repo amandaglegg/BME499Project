@@ -115,13 +115,20 @@ STend = ecg_signal_real[Stend_indext] #get the value at every index in the ecg_s
 #print("ststart ")
 #print(STstart)
 
+#%% angle calculation function
+def anglecalc (end, start, samples):
+    div = (end-start)/samples
+    angle = math.degrees(math.atan(div))
+    return angle
+
 # ST slope assesment (up/down/flat) use the angles instead and make the ST slope the end and for loop
 i = 0
 Values = [0,0,0]
 while i < len(STstart):
-    if (STend[i] - STstart[i]) < 0: #down
+    angle = anglecalc(STend[i],STstart[i],ST_len)
+    if (angle) < 0: #down
         Values[0] +=1
-    elif (STend[i] - STstart[i]) > 0: #up
+    elif (angle) > 0: #up
         Values[1] +=1
     else: #flat
         Values[2] +=1
@@ -136,5 +143,3 @@ elif index_max == 1:
 else:
     STslope = "flat"
 print(STslope)
-
-
