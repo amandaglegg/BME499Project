@@ -60,3 +60,65 @@ _, rpeaks2 = nk.ecg_peaks(ecg_signal_fake, sampling_rate= 250)
 signal, waves = nk.ecg_delineate(ecg_signal_real, rpeaks1, sampling_rate= real_freq, method="dwt", show=True, show_type='all')
 signal, waves = nk.ecg_delineate(ecg_signal_fake, rpeaks2, sampling_rate= 250, method="dwt", show=True, show_type='all')
 
+# Printing R peaks
+# print(_, rpeaks1)
+# print(_, rpeaks2)
+#%%
+#convert dictionary to list
+data1 = list(rpeaks1.values())
+data2 = list(rpeaks2.values())
+# print(data1)
+# print(data2)
+
+#removes the sampling rate from the list
+data1.pop()
+print(data1)
+data2.pop()
+print(data2)
+
+#ST Segment length based on sampling rate (# of samples) (avg duration = 120ms from paper)
+STlen = real_freq * 0.12
+ST_len = int(STlen)
+print(ST_len)
+
+# number of samples after the R peak to find start of ST segment
+STstartsam = real_freq * 0.06
+STstart_sam = int(STstartsam)
+print(STstart_sam)
+
+# start of ST Segment after R peak (0.06s after r peak -> experimental value for st segment start)
+# to get the index for the start of the ST for every waveform
+STstart_index = []
+for x in data1:
+    STstart_index.append(x + STstart_sam)
+    print(STstart_index)  
+STstart_indext = tuple(STstart_index)
+STstart = ecg_signal_real[STstart_indext] #get the value at every index in the ecg_signal_real
+# print(STstart)
+
+# End of Segment = Start + duration 
+STend_index = []
+for x in STstart_index: 
+    STend_index.append(x + ST_len)
+Stend_indext = tuple(STend_index)
+STend = ecg_signal_real[Stend_indext] #get the value at every index in the ecg_signal real
+
+#Checks
+#print("Stend")
+#print(STend)
+#print("ecg signal")
+#print(ecg_signal_real)
+#print("ststart ")
+#print(STstart)
+
+#%% ST slope assesment (up/down/flat) use the angles instead and make the ST slope the end and for loop
+
+if (STend - STstart) < 0:
+    Stslope = "downsloping"
+elif (STend - STstart) > 0:
+    Stslope = "upsloping"
+else: 
+    Stslope ="flat"
+print(Stslope)
+
+
