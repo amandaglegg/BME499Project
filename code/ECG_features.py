@@ -1,6 +1,6 @@
 #Plot raw ECG#
 # by Chris and Christine#
-
+#%%
 #Import libraries#
 
 import numpy as np
@@ -10,6 +10,7 @@ import os
 import neurokit2 as nk
 import seaborn as sns
 from sklearn import preprocessing
+
 
 plt.rcParams['figure.figsize'] = [8, 5]  # Bigger images
 
@@ -51,13 +52,14 @@ def STslope(ecg,freq):
         STend_index.append(x + ST_len)
     Stend_indext = tuple(STend_index)
     STend = ecg[Stend_indext] #get the value at every index in the ecg_signal real
-    #print("Stend")
-    #print(STend)
-    #print("ecg signal")gi
-    #print(ecg_signal_real)
-    #print("ststart ")
-    #print(STstart)
-
+    '''
+    print("Stend")
+    print(STend)
+    print("ecg signal")gi
+    print(ecg_signal_real)
+    print("ststart ")
+    print(STstart)
+    '''
     # ST slope assesment (up/down/flat) use the angles instead and make the ST slope the end and for loop
     i = 0
     Values = [0,0,0]
@@ -81,14 +83,16 @@ def STslope(ecg,freq):
     print(STslope)
     
     return STslope
-
+#%%
 # --- Importing Dataset ---
 # df = pd.read_csv("D:/Documents/4B/BME499/github/BME499Project/datasets/ecg_2020-06-01.csv", header=9, usecols = ['Unit'])
 os.chdir("..") #move up one directory to BME 499
 our_path = os.path.abspath(os.curdir)
 our_path = our_path + '/datasets/ecg_2020-06-01.csv'
 print(our_path)
+
 df = pd.read_csv(our_path, header=9, usecols = ['Unit'])
+
 # calculate sampling frequency and period
 real_freq = len(df)/30
 period = 1/ real_freq
@@ -124,3 +128,23 @@ plt.show()
 
 
         
+
+# %% Old peak -> difference between the rest and peak exercise ST depression 
+# measured 0.8ms after the J point (in mV)
+
+def old_peak (rest_ecg, exercise_ecg):
+    # Find the st segment in each one 
+    # a = ST depression in rest ecg = |STstart| - |STend|
+    # b = ST depression in exercise ecg = |STstart| - |STend|
+    # OP = |a| - |b| 
+    OP = 1
+    '''
+    If ST depression is measured by baseline to j point
+    1. Find STstart in each ecg 
+    2. Baseline is PR segment -> take the average of the Ppeaks and Ronsets?
+    3. a = ST depression in rest ecg = |baseline| - |STstart|
+    4. b = ST depression in exercise ecg = |baseline| - |STstart|
+    5. OP = |a| - |b|
+    '''
+
+    return OP

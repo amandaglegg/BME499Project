@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import math
 import seaborn as sns
 import os
-import math 
 from sklearn import preprocessing
 #%matplotlib inline
 plt.rcParams['figure.figsize'] = [8, 5]  # Bigger images
