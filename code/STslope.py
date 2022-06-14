@@ -22,13 +22,10 @@ print(our_path) # check the path is correct
 df = pd.read_csv(our_path, header=9, usecols = ['Unit'])
 print("original df",df)
 
-# --- Process dataset: normalize between 0 and 1 and convert to one array ---
-def NormalizeData(data):
-    return (data - np.min(data)) / (np.max(data) - np.min(data))
-df_norm = NormalizeData(df)
-print("normalized df", df_norm)
-df = df_norm.iloc[:,0].to_numpy() 
-print("converted to array", df)
+# --- Process dataset: convert uV to mV, divide by 1000, and convert to array---
+df = df/1000
+df = df.iloc[:,0].to_numpy()
+print("converted to mV", df)
 
 # --- Calculate sampling freq and period
 real_freq = len(df)/30
