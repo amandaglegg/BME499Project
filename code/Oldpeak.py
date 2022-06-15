@@ -27,22 +27,18 @@ def STslope(ecg,freq):
     data = list(rpeaks.values())
     #removes the sampling rate from the list
     data.pop()
-    print(data)
     # ST Segment length based on sampling rate (# of samples) (avg duration = 120ms from paper)
     STlen = freq * 0.12
     ST_len = int(STlen)
-    print(ST_len)
     # number of samples after the R peak to find start of ST segment
     STstartsam = freq * 0.06
     STstart_sam = int(STstartsam)
-    print(STstart_sam)
 
     # start of ST Segment after R peak (0.06s after r peak -> experimental value for st segment start)
     # to get the index for the start of the ST for every waveform
     STstart_index = []
     for x in data:
         STstart_index.append(x + STstart_sam)
-        print(STstart_index)  
     STstart_indext = tuple(STstart_index)
     STstart = ecg[STstart_indext] #get the value at every index in the ecg_signal_real
     # print(STstart)
@@ -53,14 +49,7 @@ def STslope(ecg,freq):
         STend_index.append(x + ST_len)
     Stend_indext = tuple(STend_index)
     STend = ecg[Stend_indext] #get the value at every index in the ecg_signal real
-    '''
-    print("Stend")
-    print(STend)
-    print("ecg signal")gi
-    print(ecg_signal_real)
-    print("ststart ")
-    print(STstart)
-    '''
+  
     # ST slope assesment (up/down/flat) use the angles instead and make the ST slope the end and for loop
     i = 0
     Values = [0,0,0]
@@ -159,26 +148,20 @@ def baseline(ecg, freq): # takes in the ecg signal to recalculate r peaks and ca
     while i < len(indexR):
         dataR.append(ecg1[indexR[i]]) #get the r peak values added to the list
         i += 1
-    print("rpeaks values ", dataR)
     dataP = waves["ECG_P_Peaks"] # list of the samples that the p peaks occur
-    # possible error is if dataP is not a list
-    print("ppeaks sample #", dataP)
     
     ppeak =[] 
     i = 0
     while i < len(dataP):
         ppeak.append (ecg1[dataP[i]]) # adds the p peak values to the list
         i += 1
-    print("this is ppeak values",ppeak)
     averages = []
     i = 0 
     while i < len(dataR):
         a = ((dataR[i] + ppeak[i])/2)
-        print("These are the averages",a)
         averages.append(a) # a list of the average of ppeaks and rpeaks
         i += 1
     base_volt = mean(averages) # the average of the average values  
-    print("this is the baseline voltage" , base_volt)
     return base_volt
 
 # %% Test for baseline value
@@ -186,3 +169,4 @@ a = baseline(ecg1, real_freq)
 print(a)
 b = baseline(ecg2, 250)
 print(b)
+
