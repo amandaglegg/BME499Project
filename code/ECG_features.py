@@ -113,7 +113,6 @@ def PR_baseline(ecg, freq):
         averages.append(a) # a list of the average of ppeaks and rpeaks
         i += 1
     baseline = mean(averages) # the average of the average values  
-    baseline = 1
     print("in baseline()")
     return baseline
 
