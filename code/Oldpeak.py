@@ -120,14 +120,14 @@ plt.show()
 # %% Old peak -> difference between the rest and peak exercise ST depression 
 
 # takes in the baseline for ecg 1 and ecg 2 and the ststart for ecg 1 and ecg2
-def old_peak (rest_base, exercise_base, rest_start, exercise_start): 
+def old_peak (rest_baseline, exercise_baseline, rest_STstart, exercise_STstart): 
     All_rest = []
-    for x in rest_start:
-        All_rest.append(abs(rest_base)- abs(rest_start)) #calculates ST depression
+    for x in rest_STstart:
+        All_rest.append(abs(rest_baseline)- abs(rest_STstart)) #calculates ST depression
     ST_dep_rest = mean(All_rest) # Averages the ST depression for the rest ecg
     All_exercise = []
-    for x in exercise_start:
-        All_exercise.append(abs(exercise_base)- abs(exercise_start)) #calculates ST depression
+    for x in exercise_STstart:
+        All_exercise.append(abs(exercise_baseline)- abs(exercise_STstart)) #calculates ST depression
     ST_dep_exercise = mean(All_exercise) # Averages the ST depression for the exercise ecg
     OP = (abs(ST_dep_rest)-abs(ST_dep_exercise))
     return OP
@@ -135,9 +135,9 @@ def old_peak (rest_base, exercise_base, rest_start, exercise_start):
 #%%
 def baseline(ecg, freq): # takes in the ecg signal to recalculate r peaks and calculate p peaks
     # Extract R-peaks locations
-    _, rpeaks = nk.ecg_peaks(ecg1, sampling_rate = real_freq)
+    _, rpeaks = nk.ecg_peaks(ecg, sampling_rate = freq)
     # Delineate
-    signal, waves = nk.ecg_delineate(ecg1, rpeaks, sampling_rate = real_freq, method="dwt", show=True, show_type='all')
+    signal, waves = nk.ecg_delineate(ecg, rpeaks, sampling_rate = freq, method="dwt", show=False, show_type='all')
     #convert r peaks dictionary to list
     indexR = list(rpeaks.values())
     #removes the sampling rate from the list
@@ -146,14 +146,14 @@ def baseline(ecg, freq): # takes in the ecg signal to recalculate r peaks and ca
     dataR = []
     i = 0 
     while i < len(indexR):
-        dataR.append(ecg1[indexR[i]]) #get the r peak values added to the list
+        dataR.append(ecg[indexR[i]]) #get the r peak values added to the list
         i += 1
     dataP = waves["ECG_P_Peaks"] # list of the samples that the p peaks occur
     
     ppeak =[] 
     i = 0
     while i < len(dataP):
-        ppeak.append (ecg1[dataP[i]]) # adds the p peak values to the list
+        ppeak.append (ecg[dataP[i]]) # adds the p peak values to the list
         i += 1
     averages = []
     i = 0 
@@ -170,3 +170,5 @@ print(a)
 b = baseline(ecg2, 250)
 print(b)
 
+
+# %%
