@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>HealthApp Demo Survey</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	
+	<body class="is-preload">
+	<section id="survey">
+	
+	<div class="container">
+	<h3> Sample Form <h3?>
+	<!-- Create Form -->
+		<form id="survey" action="" method="post">
+          Username: <input type="text" name="FirstName" size="20"><br>
+		  Age: <input type="number" name="LastName" size="5"><br>
+		  Sex (Type M,F or X for male, female, other):<input type="text" name="Sex" size="1"> <br>
+		  Upload resting ECG: <input type="file" name="ECG_rest" ><br>
+		  Upload exercise ECG: <input type="file" name="ECG_exercise"><br>
+          <input type="submit" value="submit" id="dl" onclick="submitForm()">
+		  
+        </form>
+		
+		<!-- script to download file as .csv locally.  Use for testing.
+		 <script>
+          //Clear form once submitted
+          function clearForm(){
+              document.getElementById("form").reset();
+          }
+
+          function submitForm() {
+            var formData = $("form").serializeArray();
+            let csv = "data:text/csv;charset=utf-8,"; // accept data as CSV
+
+            formData.forEach(function(item) {
+              csv += item.value + ";"; // concat form value on csv var and add ; to create columns (you can change to , if want)
+            });
+
+            var encodedUri = encodeURI(csv);
+
+            // if you want to download
+            var downloadLink = document.createElement("a");
+            downloadLink.setAttribute("download", "SURVEY.csv");
+            downloadLink.setAttribute("href", encodedUri);
+            document.body.appendChild(downloadLink); // Required for FF
+            downloadLink.click();
+            downloadLink.remove();
+
+            clearForm();
+          }
+        </script> 
+		-->
+	</div>
+	
+		
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
