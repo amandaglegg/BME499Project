@@ -4,7 +4,7 @@
 		<title>HealthApp Demo Survey</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!--<link rel="stylesheet" href="assets/css/main.css" />-->
+		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	
 	<body class="is-preload">
@@ -13,7 +13,6 @@
     	{% endif %}
 	<section id="survey">
 	
-	<div class="container">
 	<h3> Sample Form </h3>
 	<!-- Create Form -->
 		<form id="survey" action="" method="post" enctype="multipart/form-data">
@@ -22,18 +21,18 @@
 		  Sex (Type M,F or X for male, female, other):<input type="text" name="sex" size="1"> <br>
 		  <p>
 		  Chest Pain type - please select all that apply: <br>
-		  <input type="checkbox" name="cp1">
-		  Discomfort, heaviness, or tightness in the chest that does not change with position or breathing:<br>
+		  <input type="checkbox" name="cp1"> <label for="cp1">
+		  Discomfort, heaviness, or tightness in the chest that does not change with position or breathing:</label><br>
 		  
-		  <input type="checkbox" name="cp2">
-		  Chest pain when stressed, emotional, or with exercise:<br>
+		  <input type="checkbox" name="cp2"><label for="cp2">
+		  Chest pain when stressed, emotional, or with exercise: </label> <br>
 		  
-		  <input type="checkbox" name="cp3">
-		  Chest pain that gets better with rest or nitroglycerine (aka Nitrostat or GTN medication):<br>
+		  <input type="checkbox" name="cp3"><label for="cp3">
+		  Chest pain that gets better with rest or nitroglycerine (aka Nitrostat or GTN medication):</label><br>
 		 </p>
 
 		  Are you taking any of the following medication? <br> 
-		  <input type="checkbox" name="digitalis"> Digitalis <br> 
+		  <input type="checkbox" name="digitalis"> <label for="digitalis">Digitalis </label><br> 
 		  
 		  What is your resting blood pressure, in mmHg? <br>
 		  <input type="number" name="bp" size="5"><br>
@@ -77,7 +76,7 @@
           }
         </script> 
 		-->
-	</div>
+
 	
 		
 

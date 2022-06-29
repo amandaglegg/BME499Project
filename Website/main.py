@@ -9,7 +9,10 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html', name='homepage') #by default flask finds templates in the template folder
-
+    
+@app.route('/Consent/')
+def consent():
+    return render_template('Consent.html', name='consent') 
 @app.route('/SurveyDemo/', methods=['get', 'post'])
 def form():
     message =''

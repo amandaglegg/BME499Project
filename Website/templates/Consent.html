@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Consent Form</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	
+	<body class="is-preload">
+		{% if message %}
+        <p>{{ message }}</p>
+    	{% endif %}
+	<section id="survey">
+	
+	<div class="container">
+	<h3> Data Consent Form </h3>
+	<!-- Create Form -->
+		<form id="consent" action="" method="post">
+		
+        <ul>
+            <li>The personal information you provide to us will be used for the purposes of 
+                a student capstone project at the University of Victoria and will not be sold.</li>
+            <li>The information you provide will be used to predict health outcomes.  The algorithm used is a prototype and still in the development stage, and should not be used in lieu of a physician’s advice.  
+                Please consult a health professional if you have any health concerns.</li>
+            <li>The information you provide will be temporarily stored in servers operated by the University of Victoria, who follow provincial and federal privacy laws.  
+                For more information on the Uvic protection of privacy policy visit <a href="https://www.uvic.ca/universitysecretary/assets/docs/policies/GV0235.pdf">uvic.ca/universitysecretary/assets/docs/policies/</a> </li>
+            <li>If you have any questions or concerns you can contact us via email at vhartman@uvic.ca</li>
+		</ul>
+
+        	<input type="checkbox" name="agree" size="20">I agree to provide my data for this project<br>
+          <input type="submit">
+		  Click <a href="https://studentweb.uvic.ca/~vhartman/Capstone%20Website/templates/SurveyDemo"> here</a> to continue
+	</div>
+	
+
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; Untitled.</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
