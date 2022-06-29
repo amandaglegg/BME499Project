@@ -4,26 +4,51 @@
 		<title>HealthApp Demo Survey</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--<link rel="stylesheet" href="assets/css/main.css" />-->
 	</head>
 	
 	<body class="is-preload">
+		{% if message %}
+        <p>{{ message }}</p>
+    	{% endif %}
 	<section id="survey">
 	
 	<div class="container">
-	<h3> Sample Form <h3?>
+	<h3> Sample Form </h3>
 	<!-- Create Form -->
-		<form id="survey" action="" method="post">
-          Username: <input type="text" name="FirstName" size="20"><br>
-		  Age: <input type="number" name="LastName" size="5"><br>
-		  Sex (Type M,F or X for male, female, other):<input type="text" name="Sex" size="1"> <br>
+		<form id="survey" action="" method="post" enctype="multipart/form-data">
+          Username: <input type="text" name="username" size="20"><br>
+		  Age: <input type="number" name="age" size="5"><br>
+		  Sex (Type M,F or X for male, female, other):<input type="text" name="sex" size="1"> <br>
+		  <p>
+		  Chest Pain type - please select all that apply: <br>
+		  <input type="checkbox" name="cp1">
+		  Discomfort, heaviness, or tightness in the chest that does not change with position or breathing:<br>
+		  
+		  <input type="checkbox" name="cp2">
+		  Chest pain when stressed, emotional, or with exercise:<br>
+		  
+		  <input type="checkbox" name="cp3">
+		  Chest pain that gets better with rest or nitroglycerine (aka Nitrostat or GTN medication):<br>
+		 </p>
+
+		  Are you taking any of the following medication? <br> 
+		  <input type="checkbox" name="digitalis"> Digitalis <br> 
+		  
+		  What is your resting blood pressure, in mmHg? <br>
+		  <input type="number" name="bp" size="5"><br>
+		
+		  <p>
 		  Upload resting ECG: <input type="file" name="ECG_rest" ><br>
 		  Upload exercise ECG: <input type="file" name="ECG_exercise"><br>
-          <input type="submit" value="submit" id="dl" onclick="submitForm()">
+		</p>
+          <input type="submit">
+		 
+		  <!--<input type="submit" value="submit" id="dl" onclick="submitForm()">
 		  
         </form>
 		
-		<!-- script to download file as .csv locally.  Use for testing.
+		 script to download file as .csv locally.  Use for testing.
 		 <script>
           //Clear form once submitted
           function clearForm(){
@@ -60,7 +85,7 @@
 					<section id="footer">
 						<div class="container">
 							<ul class="copyright">
-								<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								<li>&copy; Untitled.</li>
 							</ul>
 						</div>
 					</section>
