@@ -4,7 +4,7 @@
 		<title>HealthApp Demo Survey</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="/static/css/Survey.css" />
 	</head>
 	
 	<body class="is-preload">
@@ -13,39 +13,41 @@
     	{% endif %}
 	<section id="survey">
 	
-	<h3> Sample Form </h3>
+	
 	<!-- Create Form -->
+	<div class="container">
+		<h2> Health Survey </h2>
 		<form id="survey" action="" method="post" enctype="multipart/form-data">
-          Username: <input type="text" name="username" size="20"><br>
-		  Age: <input type="number" name="age" size="5"><br>
-		  Sex (Type M,F or X for male, female, other):<input type="text" name="sex" size="1"> <br>
-		  <p>
-		  Chest Pain type - please select all that apply: <br>
+			<label for="username">Username:</label> <input type="text" name="username" size="20"><br><br>
+			<label for="age">Age:</label> <input type="number" name="age" size="5"><br><br>
+		  	<label for="sex">Sex (Type M,F or X for male, female, other):</label><input type="text" name="sex" size="1"> <br>
+		<p>
+		  <h4>Chest Pain symptoms - please select all that apply: </h4><br>
 		  <input type="checkbox" name="cp1"> <label for="cp1">
-		  Discomfort, heaviness, or tightness in the chest that does not change with position or breathing:</label><br>
+		  Discomfort, heaviness, or tightness in the chest that does not change with position or breathing</label><br>
 		  
 		  <input type="checkbox" name="cp2"><label for="cp2">
-		  Chest pain when stressed, emotional, or with exercise: </label> <br>
+		  Chest pain when stressed, emotional, or with exercise </label> <br>
 		  
 		  <input type="checkbox" name="cp3"><label for="cp3">
-		  Chest pain that gets better with rest or nitroglycerine (aka Nitrostat or GTN medication):</label><br>
+		  Chest pain that gets better with rest or nitroglycerine (aka Nitrostat or GTN medication)</label><br>
 		 </p>
-
-		  Are you taking any of the following medication? <br> 
+		 <p>
+		  <h4>Are you taking any of the following medication? Select all that apply:</h4> <br> 
 		  <input type="checkbox" name="digitalis"> <label for="digitalis">Digitalis </label><br> 
-		  
-		  What is your resting blood pressure, in mmHg? <br>
-		  <input type="number" name="bp" size="5"><br>
-		
-		  <p>
-		  Upload resting ECG: <input type="file" name="ECG_rest" ><br>
-		  Upload exercise ECG: <input type="file" name="ECG_exercise"><br>
+		  <input type="checkbox" name="nitro"> <label for="nitro">Nitroglycerine </label><br> 
 		</p>
-          <input type="submit">
-		 
+		  <label for="bp">Resting blood pressure, in mmHg: </label>
+		  <input type="number" name="bp" size="5"><br><br>
+		
+		<p><label for="ECG_rest">Upload resting ECG: </label> <input type="file" name="ECG_rest" ></p>
+		<p><label for="ECG_exercise">Upload exercise ECG: </label><input type="file" name="ECG_exercise"></p>
+		<p><label for="sync">Sync Device (currently unavailable): </label><input type="button" value="Sync" name="sync"></p>
+          <input type="submit"></form>
+		</div>
 		  <!--<input type="submit" value="submit" id="dl" onclick="submitForm()">
 		  
-        </form>
+        
 		
 		 script to download file as .csv locally.  Use for testing.
 		 <script>
@@ -84,7 +86,7 @@
 					<section id="footer">
 						<div class="container">
 							<ul class="copyright">
-								<li>&copy; Untitled.</li>
+								<li>&copy; HAMS llc.</li>
 							</ul>
 						</div>
 					</section>

@@ -2,23 +2,36 @@
 #adapted from https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data 
 #https://overiq.com/flask-101/form-handling-in-flask/
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import csv
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['get', 'post'])
 def index():
-    return render_template('index.html', name='homepage') #by default flask finds templates in the template folder
+    if request.method == 'POST':
+        return redirect(f'/Consent/') #go to the consent page   
     
-@app.route('/Consent/')
+    return render_template('index.html', name='homepage') #by default flask finds templates in the template folder
+
+@app.route('/Consent/', methods=['get', 'post'])
 def consent():
-    return render_template('Consent.html', name='consent') 
+    message =''
+    if request.method == 'POST':
+        yes = request.form.get('agree')
+        if yes=='1': #if box is checked
+            message=''
+            return redirect(f'/SurveyDemo/') #go to the survey page
+        else:
+            message = 'you must consent to continue'
+
+    return render_template('Consent.html', message=message) 
+
 @app.route('/SurveyDemo/', methods=['get', 'post'])
 def form():
     message =''
     if request.method == 'POST':
         sex = request.form.get('sex') #access data in form
-        #note: used request.files.get to access uploaded files.
+        #note: use request.files.get to access uploaded files.
         
         if sex =='M' or sex=='F' or sex=='X':
             message = "submitted successfully:  You are not at risk for heart disease"
