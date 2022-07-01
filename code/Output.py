@@ -911,7 +911,7 @@ prediction = pd.concat([test, pred], axis=1, join='inner')
 #%% # --- Display Prediction Result ---
 prediction.head().style.background_gradient(cmap='Reds').hide_index().set_properties(**{'font-family': 'Segoe UI'})
 # --- Export Prediction Result into csv File ---
-prediction.to_csv('prediction_heart_disease_caesarmario.csv', index=False)
+prediction.to_csv('prediction_heart_disease.csv', index=False)
 
 #%% # --- Export best model to Pickle File ---
 file = open('heart_disease_ETC.pkl', 'wb')
