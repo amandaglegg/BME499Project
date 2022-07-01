@@ -377,9 +377,9 @@ plt.tight_layout(rect=[0, 0.04, 1, 1.01])
 
 # %%
 # --- Drop Unnecessary Variables ---
-#df = df.drop(columns = ['Sex', 'ChestPainType', 'RestingECG','ST_Slope'])
+# df = df.drop(columns = ['cholesterol', 'fasting_blood_sugar'])
 # --- Display New Data Frame ---
-#df.head().style.background_gradient(cmap='Reds').hide_index().set_properties(**{'font-family': 'Segoe UI'})
+# df.head().style.background_gradient(cmap='Reds').hide_index().set_properties(**{'font-family': 'Segoe UI'})
 
 
 # %%
@@ -901,21 +901,23 @@ compare = pd.DataFrame({'Model': ['Logistic Regression', 'K-Nearest Neighbour', 
 # --- Create Accuracy Comparison Table ---
 compare.sort_values(by='Accuracy', ascending=False).style.background_gradient(cmap='PuRd').hide_index().set_properties(**{'font-family': 'Segoe UI'})
 
-
 # %% Output Results
 # --- Transform Test Set & Prediction into New Data Frame ---
 test = pd.DataFrame(x_test, columns=['age', 'sex', 'chest_pain_type', 'resting_bp_s', 'resting_ecg', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'st_slope'])
 pred = pd.DataFrame(y_pred_GB, columns=['target'])
 prediction = pd.concat([test, pred], axis=1, join='inner')
+# prediction = prediction.drop(['cholesterol', 'fasting_blood_sugar'], axis = 1)
 
 #%% # --- Display Prediction Result ---
 prediction.head().style.background_gradient(cmap='Reds').hide_index().set_properties(**{'font-family': 'Segoe UI'})
 # --- Export Prediction Result into csv File ---
 prediction.to_csv('prediction_heart_disease_caesarmario.csv', index=False)
 
-#%% # --- Export Pickle File ---
-file = open('heart_disease_ETC_caesarmario.pkl', 'wb')
+#%% # --- Export best model to Pickle File ---
+file = open('heart_disease_ETC.pkl', 'wb')
 pickle.dump(ETclassifier, file)
+file.close()
+
 
 # %% test
 # --- Turn Information into List ---
@@ -923,7 +925,7 @@ data = [[0.714, 1, 0.33, 0.695,   ## age_scaled, sex, trestbps_scaled, chol
          0.5, 0.4788, 1, 0.4318,         ## fbs, restecg_scaled, thalach_scaled, exang
          0.5]]           ## thal_2, thal_3, slope_0, slope_1, slope_2
 
-# --- Prediction using Gradient Boosting ---
+# --- Prediction using Extra tree classifier ---
 result = ETclassifier.predict(data)
 
 # --- Print Heart Disease Status ---
