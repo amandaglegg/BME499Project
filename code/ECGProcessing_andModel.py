@@ -3,6 +3,7 @@
 
 #%%
 #ECG Processing and features
+import pathlib
 import numpy as np
 from numpy import mean
 import pandas as pd
@@ -177,17 +178,27 @@ print("returend OP", OP)
 #%%
 #Complete and combined csv file process depends on what the additional user data csv looks like 
 
+#%%quick test
+hungry = os.path.exists('./heart_disease_ETC.pkl')
+print(hungry)
+#%%
+with open('heart_disease_ETC.pkl', 'rb') as f:
+    model = pickle.load(f)
+    f.close
+
 
 # %% Running complete data through model 
-infile = open('heart_disease_ETC.pkl','rb')
-model = pickle.load(infile)
-infile.close()
+file = open('heart_disease_ETC.pkl','rb')
+model = pickle.load(file)
+file.close()
 
 #Test case
 # --- Turn Information into List ---
 data = [[0.714, 1, 0.33, 0.695,   
          0.5, 0.4788, 1, 0.4318,         
-         0.5]]           
+         0.5]]     
+
+# Real case would take data from the complete csv file      
 
 # --- Prediction using ET Classifier Boosting Model ---
 result = model.predict(data)
