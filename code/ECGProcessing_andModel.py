@@ -72,12 +72,12 @@ def STslope(STstart,STend):
     # the slope is the highest of the 3
     index_max= np.argmax(Values)
     if index_max == 0:
-        STslope = "downsloping"
+        STslope = 3 #"downsloping"
     elif index_max == 1:
-        STslope = "upsloping"
+        STslope = 1 #"upsloping"
     else:
-        STslope = "flat"
-    print("In STslope(), ST slope is:", STslope)
+        STslope = 2 #"flat"
+    # print("In STslope(), ST slope is:", STslope)
     return STslope
 
 def PR_baseline(ecg, freq):
@@ -175,16 +175,11 @@ print("returned slope", stslope)
 OP = old_peak(STstart1, STstart2, baseline1, baseline2)
 print("returend OP", OP)
 
-#%%
-#Complete and combined csv file process depends on what the additional user data csv looks like 
-
-#%%quick test
-hungry = os.path.exists('./heart_disease_ETC.pkl')
-print(hungry)
-#%%
-with open('heart_disease_ETC.pkl', 'rb') as f:
-    model = pickle.load(f)
-    f.close
+#%% Combined data (From user csv and ecg processing) 
+# df1 = pd.read_csv(path) #this csv is the one with the age,sex etc..
+# df1.insert(7,'oldpeak', OP, allow_duplicates = False)
+# df1.insert(8, 'ST slope', stslope, allow duplicates = False)
+# Turn the data frame into a list and run it through the model
 
 
 # %% Running complete data through model 
@@ -198,7 +193,7 @@ data = [[0.714, 1, 0.33, 0.695,
          0.5, 0.4788, 1, 0.4318,         
          0.5]]     
 
-# Real case would take data from the complete csv file      
+# Real case would take data from the complete dataframe     
 
 # --- Prediction using ET Classifier Boosting Model ---
 result = model.predict(data)
