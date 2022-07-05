@@ -1,3 +1,4 @@
+
 #ECG processing -> combining result with additional user data -> run combined csv through model
 #To be added: Code for combining ST slope, old peak to user data collected through survey
 
@@ -134,10 +135,12 @@ def old_peak (rest_STstart, exercise_STstart, rest_baseline, exercise_baseline):
 # df = pd.read_csv("D:/Documents/4B/BME499/github/BME499Project/datasets/ecg_2020-06-01.csv", header=9, usecols = ['Unit'])
 os.chdir("..") #move up one directory to BME 499
 our_path = os.path.abspath(os.curdir)
-our_path = our_path + '/datasets/ecg_2020-06-01.csv'
-print("Reading data from: ",our_path)
+ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
+user_path = our_path + '/datasets/fake_user_data.csv'
+model_path = our_path + '/code/heart_disease_ETC.pkl'
+print("Reading data from: ",ecg_path)
 
-df = pd.read_csv(our_path, header=9, usecols = ['Unit'])
+df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
 
 # calculate sampling frequency and period
 real_freq = len(df)/30
@@ -176,23 +179,35 @@ OP = old_peak(STstart1, STstart2, baseline1, baseline2)
 print("returend OP", OP)
 
 #%% Combined data (From user csv and ecg processing) 
-# df1 = pd.read_csv(path) #this csv is the one with the age,sex etc..
-# df1.insert(7,'oldpeak', OP, allow_duplicates = False)
-# df1.insert(8, 'ST slope', stslope, allow duplicates = False)
+'''
+This part combines ST slope and old peak into the user data, 
+and outputs a list with processed features, all in numerical values
+'''
+print("Reading data from: ",user_path)
+df1 = pd.read_csv(user_path) #this csv is the one with the age,sex etc..
+print(df1)
+df1.insert(7,'oldpeak', OP, allow_duplicates = False)
+df1.insert(8, 'ST_Slope', stslope, allow_duplicates = False)
+df1 = df1.dropna(how='all', axis='columns')
+print(df1)
+
+data = df1.values.tolist()
+print(data)
 # Turn the data frame into a list and run it through the model
 
 
 # %% Running complete data through model 
-file = open('heart_disease_ETC.pkl','rb')
+file = open(model_path,'rb')
 model = pickle.load(file)
 file.close()
 
 #Test case
 # --- Turn Information into List ---
+'''
 data = [[0.714, 1, 0.33, 0.695,   
          0.5, 0.4788, 1, 0.4318,         
          0.5]]     
-
+'''
 # Real case would take data from the complete dataframe     
 
 # --- Prediction using ET Classifier Boosting Model ---
