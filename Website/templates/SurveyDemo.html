@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>HealthApp Demo Survey</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/static/css/Survey.css" />
+	</head>
+	
+	<body class="is-preload">
+		{% if message %}
+        <p>{{ message }}</p>
+    	{% endif %}
+	<section id="survey">
+	
+	
+	<!-- Create Form -->
+	<div class="container">
+		<h2> Health Survey </h2>
+		<form id="survey" action="" method="post" enctype="multipart/form-data">
+			<label for="username">Username:</label> <input type="text" name="username" size="20"><br><br>
+			<label for="age">Age:</label> <input type="number" name="age" size="5"><br><br>
+		  	<label for="sex">Sex (Type M,F or X for male, female, other):</label><input type="text" name="sex" size="1"> <br>
+		<p>
+		  <h4>Chest Pain symptoms - please select all that apply: </h4><br>
+		  <input type="checkbox" name="cp1"> <label for="cp1">
+		  Discomfort, heaviness, or tightness in the chest that does not change with position or breathing</label><br>
+		  
+		  <input type="checkbox" name="cp2" ><label for="cp2">
+		  Chest pain when stressed, emotional, or with exercise </label> <br>
+		  
+		  <input type="checkbox" name="cp3" ><label for="cp3">
+		  Chest pain that gets better with rest or nitroglycerine (aka Nitrostat or GTN medication)</label><br>
+		 </p>
+		 <p>
+		  <h4>Are you taking any of the following medication? Select all that apply:</h4> <br> 
+		  <input type="checkbox" name="digitalis"> <label for="digitalis">Digitalis </label><br> 
+		  <input type="checkbox" name="nitro"> <label for="nitro">Nitroglycerine </label><br> 
+		</p>
+		  <label for="bp">Resting blood pressure, in mmHg: </label>
+		  <input type="number" name="bp" size="5"><br><br>
+
+		  <label for="bp">Mex Heart Rate, in beats per minute (BPM): </label>
+		  <input type="number" name="HR" size="5"><br><br>
+		
+		<p><label for="ECG_rest">Upload resting ECG: </label> <input type="file" name="ECG_rest" ></p>
+		<p><label for="ECG_exercise">Upload exercise ECG: </label><input type="file" name="ECG_exercise"></p>
+		<p><label for="sync">Sync Device (currently unavailable): </label><input type="button" value="Sync" name="sync"></p>
+          <input type="submit"></form>
+		</div>
+		  <!--<input type="submit" value="submit" id="dl" onclick="submitForm()">
+		  
+        
+		
+		 script to download file as .csv locally.  Use for testing.
+		 <script>
+          //Clear form once submitted
+          function clearForm(){
+              document.getElementById("form").reset();
+          }
+
+          function submitForm() {
+            var formData = $("form").serializeArray();
+            let csv = "data:text/csv;charset=utf-8,"; // accept data as CSV
+
+            formData.forEach(function(item) {
+              csv += item.value + ";"; // concat form value on csv var and add ; to create columns (you can change to , if want)
+            });
+
+            var encodedUri = encodeURI(csv);
+
+            // if you want to download
+            var downloadLink = document.createElement("a");
+            downloadLink.setAttribute("download", "SURVEY.csv");
+            downloadLink.setAttribute("href", encodedUri);
+            document.body.appendChild(downloadLink); // Required for FF
+            downloadLink.click();
+            downloadLink.remove();
+
+            clearForm();
+          }
+        </script> 
+		-->
+
+	
+		
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; HAMS llc.</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
