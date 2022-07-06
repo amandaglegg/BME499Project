@@ -29,10 +29,13 @@ def consent():
             message = 'you must consent to continue'
 
     return render_template('Consent.html', message=message) 
-@app.route('/Result/', methods=['get'])
+@app.route('/Result/', methods=['get', 'post'])
 def result():
-    message=''
-    return render_template('Result.html', message=message)
+    message='Sumitted Successfully: You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
+    if request.method == 'POST':
+        return redirect(f'/') #go to homepage
+    else: 
+        return render_template('Result.html', message=message)
 
 @app.route('/SurveyDemo/', methods=['get', 'post'])
 def form():
@@ -43,7 +46,7 @@ def form():
         cp1 = request.form.get('cp1')
         cp2 = request.form.get('cp2')
         cp3 = request.form.get('cp3')
-
+        
         if cp1=='on' and cp2=='on' and cp3=='on': #all boxes
             ChestPainType=4
         elif cp1!='on' and cp2!='on' and cp3!='on': #no boxes
@@ -60,14 +63,16 @@ def form():
         #note: use request.files.get to access uploaded files.
         
         if sex =='M' or sex=='F' or sex=='X':
-            message = "submitted successfully:  You are not at risk for heart disease"
-            #after algo integration, add another if else statement here for at risk/not at risk!
-
+            message = "submitted successfully"
+            
+            if sex == 'M':
+                sex=1
+            else: sex=0  #for now, deal with intersex/other by binning as F.  
             #write form data to a .csv file:
             with open('sampleform.csv', 'w', newline='') as csvfile:
                 formdata = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 formdata.writerow(['age', 'sex', 'ChestPainType', 'RestingBP', 'MaxHR', 'ExerciseAngina'])
-                formdata.writerow([request.form.get('age'), request.form.get('sex'), ChestPainType, request.form.get('bp'), request.form.get('HR'), cp2])
+                formdata.writerow([request.form.get('age'), sex, ChestPainType, request.form.get('bp'), request.form.get('HR'), cp2])
 
             ECG_rest = request.files['ECG_rest']
             ECG_exercise = request.files['ECG_exercise']
@@ -76,7 +81,7 @@ def form():
             if ECG_exercise.filename !='':
                 ECG_exercise.save(ECG_exercise.filename)
 
-            return render_template('Result.html', message=message)
+            return redirect ('/Result/')
         else:
             message = "invalid input.  Please try again"
         
