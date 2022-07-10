@@ -15,6 +15,8 @@ import neurokit2 as nk
 import seaborn as sns
 import pickle
 from sklearn import preprocessing
+from sklearn.preprocessing import MinMaxScaler
+#%%
 
 plt.rcParams['figure.figsize'] = [8, 5]  # Bigger images
 
@@ -236,8 +238,7 @@ df1 = df1.dropna(how='all', axis='columns')
 print(df1)
 
 data = df1.values.tolist()
-print(data)
-
+data = MinMaxScaler().fit_transform(data)
 
 # %% Running complete data through model 
 file = open(model_path,'rb')
