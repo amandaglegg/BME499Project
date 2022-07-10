@@ -105,7 +105,6 @@ def PR_baseline(ecg, freq):
         dataR.append(ecg[indexR[i]]) #get the r peak values added to the list
         i += 1
     dataP1 = waves['ECG_P_Peaks'] # list of the samples that the p peaks occur
-    print("This is dataP", dataP1)
     #get rid of any invalid entries
     dataP = [x for x in dataP1 if np.isnan(x) == False]
     
@@ -133,8 +132,6 @@ def old_peak (rest_STstart, exercise_STstart, rest_baseline, exercise_baseline):
         else:
             All_rest.append(abs(rest_baseline)- abs(rest_STstart))
         i += 1    
-    # for x in rest_STstart:
-      #  All_rest.append(abs(rest_baseline)- abs(rest_STstart)) #calculates ST depression
     ST_dep_rest = mean(All_rest) # Averages the ST depression for the rest ecg
     if ST_dep_rest < 0.1 or elevation == 1:
         nd = 1 #There is no depression, nd = no depression
@@ -150,8 +147,6 @@ def old_peak (rest_STstart, exercise_STstart, rest_baseline, exercise_baseline):
         else: 
             All_exercise.append(abs(exercise_baseline)- abs(exercise_STstart))
         i += 1
-    # for x in exercise_STstart:
-      #  All_exercise.append(abs(exercise_baseline)- abs(exercise_STstart)) #calculates ST depression
     ST_dep_exercise = mean(All_exercise) # Averages the ST depression for the exercise ecg
     if ST_dep_exercise < 0.1 or elevation == 1:
         nd1 = 1 #There is no depression 
@@ -181,26 +176,21 @@ df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
 real_freq = len(df)/30
 period = 1/ real_freq
 # --- Process dataset: convert uV to mV, divide by 1000 ---
-print("original df",df)
+# print("original df",df)
 df = df/1000
 df = df.iloc[:,0].to_numpy()
-print("converted to mV", df)
+# print("converted to mV", df)
 
-#Test -> converting post exercise data to mv
+# Calculating sampling frequency and processing post exercise dataset
 dft = pd.read_csv(postexercise_path, header=9, usecols = ['Unit'])
 real_freq2 = len(dft)/30
-print("post exercise df",dft)
+# print("post exercise df",dft)
 dft = dft/1000
 dft = dft.iloc[:,0].to_numpy()
-print("converted to mV", dft)
-
-# Similate fake data for comparison
-# Generate 15 seconds of ECG signal (recorded at 250 samples / second)
-ecgSIM = nk.ecg_simulate(duration=15, sampling_rate=250, heart_rate=70)
+# print("converted to mV", dft)
 
 # ecg datas to work with are below
 ecg1 = df
-# ecg2 = ecgSIM
 ecg2 = dft
 # compute start and end of ST for ecg1
 STstart1,STend1 = STprocess(ecg1,real_freq)
@@ -244,15 +234,6 @@ data = MinMaxScaler().fit_transform(data)
 file = open(model_path,'rb')
 model = pickle.load(file)
 file.close()
-
-#Test case
-# --- Turn Information into List ---
-'''
-data = [[0.714, 1, 0.33, 0.695,   
-         0.5, 0.4788, 1, 0.4318,         
-         0.5]]     
-'''
-# Real case would take data from the complete dataframe     
 
 # --- Prediction using ET Classifier Boosting Model ---
 result = model.predict(data)
