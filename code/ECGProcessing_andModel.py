@@ -7,6 +7,7 @@
 import pathlib
 import numpy as np
 from numpy import mean
+from numpy import nan
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -101,7 +102,10 @@ def PR_baseline(ecg, freq):
     while i < len(indexR):
         dataR.append(ecg[indexR[i]]) #get the r peak values added to the list
         i += 1
-    dataP = waves["ECG_P_Peaks"] # list of the samples that the p peaks occur
+    dataP1 = waves['ECG_P_Peaks'] # list of the samples that the p peaks occur
+    print("This is dataP", dataP1)
+    #get rid of any invalid entries
+    dataP = [x for x in dataP1 if np.isnan(x) == False]
     
     ppeak =[] 
     i = 0
@@ -120,14 +124,41 @@ def PR_baseline(ecg, freq):
 
 def old_peak (rest_STstart, exercise_STstart, rest_baseline, exercise_baseline):
     All_rest = []
-    for x in rest_STstart:
-        All_rest.append(abs(rest_baseline)- abs(rest_STstart)) #calculates ST depression
+    i = 0
+    while i < len(rest_STstart):
+        if rest_baseline < rest_STstart[i]: # tests for if there is elevation
+            elevation = 1
+        else:
+            All_rest.append(abs(rest_baseline)- abs(rest_STstart))
+        i += 1    
+    # for x in rest_STstart:
+      #  All_rest.append(abs(rest_baseline)- abs(rest_STstart)) #calculates ST depression
     ST_dep_rest = mean(All_rest) # Averages the ST depression for the rest ecg
+    if ST_dep_rest < 0.1 or elevation == 1:
+        nd = 1 #There is no depression, nd = no depression
+    else:
+        nd = 0 # There is ST depression
+    print("Average ST depression for rest ecg", ST_dep_rest)
+    elevation = 0
     All_exercise = []
-    for x in exercise_STstart:
-        All_exercise.append(abs(exercise_baseline)- abs(exercise_STstart)) #calculates ST depression
+    i = 0
+    while i < len(exercise_STstart):
+        if exercise_baseline < exercise_STstart[i]:
+            elevation = 1
+        else: 
+            All_exercise.append(abs(exercise_baseline)- abs(exercise_STstart))
+        i += 1
+    # for x in exercise_STstart:
+      #  All_exercise.append(abs(exercise_baseline)- abs(exercise_STstart)) #calculates ST depression
     ST_dep_exercise = mean(All_exercise) # Averages the ST depression for the exercise ecg
-    OP = (abs(ST_dep_rest)-abs(ST_dep_exercise))
+    if ST_dep_exercise < 0.1 or elevation == 1:
+        nd1 = 1 #There is no depression 
+    else:
+        nd1 = 0 # There is ST depression
+    print("Average ST depression for exercise ecg", ST_dep_exercise)
+    OP = abs(abs(ST_dep_rest)-abs(ST_dep_exercise))
+    if OP < 0.1 or nd and nd1 == 1: #can change this if it becomes 0 only because of exercise
+        OP = 0
     print("in oldpeak()")
     return OP
 
@@ -138,6 +169,8 @@ our_path = os.path.abspath(os.curdir)
 ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
 user_path = our_path + '/datasets/fake_user_data.csv'
 model_path = our_path + '/code/heart_disease_ETC.pkl'
+preexercise_path = our_path + '/datasets/pre_exercise_ecg.csv'
+postexercise_path = our_path + '/datasets/post_exercise_ecg.csv'
 print("Reading data from: ",ecg_path)
 
 df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
@@ -151,28 +184,39 @@ df = df/1000
 df = df.iloc[:,0].to_numpy()
 print("converted to mV", df)
 
+#Test -> converting post exercise data to mv
+dft = pd.read_csv(postexercise_path, header=9, usecols = ['Unit'])
+real_freq2 = len(dft)/30
+print("post exercise df",dft)
+dft = dft/1000
+dft = dft.iloc[:,0].to_numpy()
+print("converted to mV", dft)
+
 # Similate fake data for comparison
 # Generate 15 seconds of ECG signal (recorded at 250 samples / second)
 ecgSIM = nk.ecg_simulate(duration=15, sampling_rate=250, heart_rate=70)
 
 # ecg datas to work with are below
 ecg1 = df
-ecg2 = ecgSIM
+# ecg2 = ecgSIM
+ecg2 = dft
 # compute start and end of ST for ecg1
 STstart1,STend1 = STprocess(ecg1,real_freq)
 print("returned ST start1:",STstart1)
 print("returned ST end1:",STend1)
 # compute start and end of ST for excercise ecg (ECG2)
-STstart2,STend2 = STprocess(ecg2,250)
+STstart2,STend2 = STprocess(ecg2,real_freq2)
 print("returned ST start2:",STstart2)
 print("returned ST end2:",STend2)
 #compute baselines of ecg 1 and 2, for OP
 baseline1 = PR_baseline(ecg1,real_freq)
-baseline2 = PR_baseline(ecg2, 250)
+# baseline2 = PR_baseline(ecg2, 250)
+baseline2 = PR_baseline(ecg2, real_freq2)
 print("returned baseline 1", baseline1)
 print("returend baseline 2", baseline2)
 #compute st slope of ecg1
 stslope = STslope(STstart1,STend1)
+
 print("returned slope", stslope)
 #compute oldpeak using ecg1 and 2
 OP = old_peak(STstart1, STstart2, baseline1, baseline2)
@@ -193,7 +237,6 @@ print(df1)
 
 data = df1.values.tolist()
 print(data)
-# Turn the data frame into a list and run it through the model
 
 
 # %% Running complete data through model 
