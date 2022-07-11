@@ -163,15 +163,12 @@ def heartdisease ():
 
     df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
 
-    # calculate sampling frequency and period
+    # calculate sampling frequency and period for pre exercise data
     real_freq = len(df)/30
-    period = 1/ real_freq
     # --- Process dataset: convert uV to mV, divide by 1000 ---
-    # print("original df",df)
     df = df/1000
     df = df.iloc[:,0].to_numpy()
-    # print("converted to mV", df)
-
+    
     # Calculating sampling frequency and processing post exercise dataset
     dft = pd.read_csv(postexercise_path, header=9, usecols = ['Unit'])
     real_freq2 = len(dft)/30
