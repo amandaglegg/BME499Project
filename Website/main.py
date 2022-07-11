@@ -32,7 +32,10 @@ def consent():
     return render_template('Consent.html', message=message) 
 @app.route('/Result/', methods=['get', 'post'])
 def result():
-    message='Sumitted Successfully: You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
+    if Backend.heartdisease() == 0: 
+        message = 'Submitted Successfully. You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
+    elif Backend.heartdisease() == 1:
+        message = 'Submitted Successfully. You are at risk for heart disease.'
     if request.method == 'POST':
         return redirect(f'/') #go to homepage
     else: 
