@@ -38,8 +38,10 @@ set_palette('dark')
 
 os.chdir("..") #move up one directory to BME 499
 our_path = os.path.abspath(os.curdir)
+user_path = our_path + '/datasets/fake_user_data.csv'
 our_path = our_path + '/datasets/hch.csv'
 print(our_path)
+
 df = pd.read_csv(our_path)
 df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_', regex=True)
 # --- Reading Dataset ---
@@ -63,7 +65,7 @@ x = df.drop(['target'], axis=1)
 y = df['target']
 
 # --- Data Normalization using Min-Max Method ---
-x = MinMaxScaler().fit_transform(x)
+# x = MinMaxScaler().fit_transform(x)
 
 # --- Splitting Dataset into 80:20 ---
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=4)
@@ -174,3 +176,44 @@ compare = pd.DataFrame({'Model': ['Logistic Regression', 'K-Nearest Neighbour', 
 
 # --- Create Accuracy Comparison Table ---
 compare.sort_values(by='Accuracy', ascending=False).style.background_gradient(cmap='PuRd').hide_index().set_properties(**{'font-family': 'Segoe UI'})
+
+#%% Create new model
+# --- Transform Test Set & Prediction into New Data Frame ---
+test = pd.DataFrame(x_test, columns=['age', 'sex', 'chest_pain_type', 'resting_bp_s', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'st_slope'])
+pred = pd.DataFrame(y_pred_GB, columns=['target'])
+prediction = pd.concat([test, pred], axis=1, join='inner')
+# prediction = prediction.drop(['cholesterol', 'fasting_blood_sugar'], axis = 1)
+
+#%% # --- Display Prediction Result ---
+prediction.head().style.background_gradient(cmap='Reds').hide_index().set_properties(**{'font-family': 'Segoe UI'})
+# --- Export Prediction Result into csv File ---
+prediction.to_csv('prediction_heart_disease.csv', index=False)
+
+#%% # --- Export hypertuned model to Pickle File ---
+file = open('ETC_model_not_normalized.pkl', 'wb')
+pickle.dump(ETclassifier, file)
+file.close()
+
+#%% Testing
+infile = open('ETC_model_not_normalized.pkl','rb')
+model = pickle.load(infile)
+infile.close()
+
+df1 = pd.read_csv(user_path) 
+df1.insert(6,'oldpeak', 0, allow_duplicates = False)
+df1.insert(7, 'st_slope', 1, allow_duplicates = False)
+df1 = df1.dropna(how='all', axis='columns')
+data = df1.values.tolist()
+print("this is the data going through the model:", data)
+
+# --- Prediction using ET Classifier Boosting Model ---
+result = model.predict(data)
+
+# --- Print Heart Disease Status ---
+
+if result[0] == 1:
+   print('\033[1m' + '.:. Heart Disease Detected!.:.' + '\033[0m')
+else:
+   print('\033[1m' + '.:. Heart Disease Not Detected!.:.' + '\033[0m')
+
+# %%

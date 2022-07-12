@@ -165,7 +165,7 @@ os.chdir("..") #move up one directory to BME 499
 our_path = os.path.abspath(os.curdir)
 ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
 user_path = our_path + '/datasets/fake_user_data.csv'
-model_path = our_path + '/code/heart_disease_ETC.pkl'
+model_path = our_path + '/code/ETC_model_not_normalized.pkl'
 preexercise_path = our_path + '/datasets/pre_exercise_ecg.csv'
 postexercise_path = our_path + '/datasets/post_exercise_ecg.csv'
 print("Reading data from: ",ecg_path)
@@ -222,13 +222,13 @@ and outputs a list with processed features, all in numerical values
 print("Reading data from: ",user_path)
 df1 = pd.read_csv(user_path) #this csv is the one with the age,sex etc..
 print(df1)
-df1.insert(7,'oldpeak', OP, allow_duplicates = False)
-df1.insert(8, 'ST_Slope', stslope, allow_duplicates = False)
+df1.insert(6,'oldpeak', OP, allow_duplicates = False)
+df1.insert(7, 'ST_Slope', stslope, allow_duplicates = False)
 df1 = df1.dropna(how='all', axis='columns')
 print(df1)
 
 data = df1.values.tolist()
-data = MinMaxScaler().fit_transform(data)
+# data = MinMaxScaler().fit_transform(data)
 
 # %% Running complete data through model 
 file = open(model_path,'rb')
