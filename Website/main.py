@@ -6,7 +6,9 @@
 from asyncio.windows_events import NULL
 from pickle import TRUE
 from flask import Flask, render_template, request, redirect
+import Backend
 import csv
+import os 
 
 from numpy import True_
 app = Flask(__name__) #required to setup the dev server aka local host
@@ -73,8 +75,8 @@ def form():
             #write form data to a .csv file:
             with open('sampleform.csv', 'w', newline='') as csvfile:
                 formdata = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                formdata.writerow(['age', 'sex', 'ChestPainType', 'RestingBP', 'MaxHR', 'ExerciseAngina'])
-                formdata.writerow([request.form.get('age'), sex, ChestPainType, request.form.get('bp'), request.form.get('HR'), cp2])
+                formdata.writerow(['age', 'sex', 'chest pain type', 'resting bp s', 'max heart rate', 'resting ecg', 'exercise angina'])
+                formdata.writerow([request.form.get('age'), sex, ChestPainType, request.form.get('bp'), request.form.get('HR'),0, cp2])
             
             #import uploaded .csv files to local folder
             ECG_rest = request.files['ECG_rest']
@@ -83,6 +85,8 @@ def form():
                 ECG_rest.save(ECG_rest.filename) #save locally
             if ECG_exercise.filename !='':
                 ECG_exercise.save(ECG_exercise.filename)
+            os.rename(ECG_rest.filename, 'pre_exercise_ecg.csv') #change the filename so it's easy to retrieve
+            os.rename(ECG_exercise.filename, 'post_exercise_ecg.csv')
 
             return redirect ('/Result/')  #after form submission and input checking, send user to the Results page.
         else:

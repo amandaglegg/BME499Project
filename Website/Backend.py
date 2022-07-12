@@ -155,13 +155,13 @@ def heartdisease ():
     # df = pd.read_csv("D:/Documents/4B/BME499/github/BME499Project/datasets/ecg_2020-06-01.csv", header=9, usecols = ['Unit'])
     os.chdir("..") #move up one directory to BME 499
     our_path = os.path.abspath(os.curdir)
-    ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
-    user_path = our_path + '/datasets/fake_user_data.csv'
-    model_path = our_path + '/code/heart_disease_ETC.pkl'
-    preexercise_path = our_path + '/datasets/pre_exercise_ecg.csv'
-    postexercise_path = our_path + '/datasets/post_exercise_ecg.csv'
+    ecg_path = our_path + '/BME499Project/Website/ecg_2020-06-01.csv'
+    user_path = our_path + '/BME499Project/sampleform.csv'
+    model_path = our_path + '/BME499Project/Website/heart_disease_ETC.pkl'
+    preexercise_path = our_path + '/BME499Project/pre_exercise_ecg.csv'
+    postexercise_path = our_path + '/BME499Project/post_exercise_ecg.csv'
 
-    df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
+    df = pd.read_csv(preexercise_path, header=9, usecols = ['Unit'])
 
     # calculate sampling frequency and period for pre exercise data
     real_freq = len(df)/30

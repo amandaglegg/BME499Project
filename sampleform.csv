@@ -1,2 +1,2 @@
-age,sex,ChestPainType,RestingBP,MaxHR,ExerciseAngina
-55,1,2,120,200,1
+age,sex,chest pain type,resting bp s,max heart rate,resting ecg,exercise angina
+80,1,4,160,125,0,1
