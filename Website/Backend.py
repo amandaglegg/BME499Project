@@ -157,7 +157,7 @@ def heartdisease ():
     our_path = os.path.abspath(os.curdir)
     ecg_path = our_path + '/BME499Project/Website/ecg_2020-06-01.csv'
     user_path = our_path + '/BME499Project/sampleform.csv'
-    model_path = our_path + '/BME499Project/Website/heart_disease_ETC.pkl'
+    model_path = our_path + '/BME499Project/Website/ETC_model_not_normalized.pkl'
     preexercise_path = our_path + '/BME499Project/pre_exercise_ecg.csv'
     postexercise_path = our_path + '/BME499Project/post_exercise_ecg.csv'
 
@@ -198,12 +198,12 @@ def heartdisease ():
     and outputs a list with processed features, all in numerical values
     '''
     df1 = pd.read_csv(user_path) #this csv is the one with the age,sex etc..
-    df1.insert(7,'oldpeak', OP, allow_duplicates = False)
-    df1.insert(8, 'ST_Slope', stslope, allow_duplicates = False)
+    df1.insert(6,'oldpeak', OP, allow_duplicates = False)
+    df1.insert(7, 'ST_Slope', stslope, allow_duplicates = False)
     df1 = df1.dropna(how='all', axis='columns')
 
     data = df1.values.tolist()
-    data = MinMaxScaler().fit_transform(data) #Normalize values
+    # data = MinMaxScaler().fit_transform(data) #Normalize values
 
     # %% Running complete data through model 
     file = open(model_path,'rb')
@@ -221,8 +221,9 @@ def heartdisease ():
     return risk
 
 #%% Test code (Comment out for actual use)
-# risk = heartdisease()
-# if risk == 1:
+risk = heartdisease()
+if risk == 1:
     print("Oh no, you are at risk for heart disease")
-# else:
+else:
     print("Don't worry, you're all good, little to no risk of heart disease for you!")
+# %%
