@@ -221,9 +221,8 @@ def heartdisease ():
     return risk
 
 #%% Test code (Comment out for actual use)
-risk = heartdisease()
-if risk == 1:
-    print("Oh no, you are at risk for heart disease")
-else:
-    print("Don't worry, you're all good, little to no risk of heart disease for you!")
-# %%
+# risk = heartdisease()
+# if risk == 1:
+   # print("Oh no, you are at risk for heart disease")
+# else:
+   # print("Don't worry, you're all good, little to no risk of heart disease for you!")
