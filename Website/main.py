@@ -75,8 +75,8 @@ def form():
             #write form data to a .csv file:
             with open('sampleform.csv', 'w', newline='') as csvfile:
                 formdata = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                formdata.writerow(['age', 'sex', 'chest pain type', 'resting bp s', 'max heart rate', 'resting ecg', 'exercise angina'])
-                formdata.writerow([request.form.get('age'), sex, ChestPainType, request.form.get('bp'), request.form.get('HR'),0, cp2])
+                formdata.writerow(['age', 'sex', 'chest pain type', 'resting bp s', 'max heart rate', 'exercise angina'])
+                formdata.writerow([request.form.get('age'), sex, ChestPainType, request.form.get('bp'), request.form.get('HR'), cp2])
             
             #import uploaded .csv files to local folder
             ECG_rest = request.files['ECG_rest']
