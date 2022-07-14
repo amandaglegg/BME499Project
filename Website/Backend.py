@@ -153,13 +153,13 @@ def old_peak (rest_STstart, exercise_STstart, rest_baseline, exercise_baseline):
 def heartdisease ():
     # --- Importing Dataset ---
     # df = pd.read_csv("D:/Documents/4B/BME499/github/BME499Project/datasets/ecg_2020-06-01.csv", header=9, usecols = ['Unit'])
-    os.chdir("..") #move up one directory to BME 499
+    #os.chdir("..") #move up one directory to BME 499
     our_path = os.path.abspath(os.curdir)
-    ecg_path = our_path + '/BME499Project/Website/ecg_2020-06-01.csv'
-    user_path = our_path + '/BME499Project/sampleform.csv'
-    model_path = our_path + '/BME499Project/Website/ETC_model_not_normalized.pkl'
-    preexercise_path = our_path + '/BME499Project/pre_exercise_ecg.csv'
-    postexercise_path = our_path + '/BME499Project/post_exercise_ecg.csv'
+    ecg_path = our_path + '/Website/ecg_2020-06-01.csv'
+    user_path = our_path + '/Website/sampleform.csv'
+    model_path = our_path + '/Website/ETC_model_not_normalized.pkl'
+    preexercise_path = our_path + '/Website/pre_exercise_ecg.csv'
+    postexercise_path = our_path + '/Website/post_exercise_ecg.csv'
 
     df = pd.read_csv(preexercise_path, header=9, usecols = ['Unit'])
 

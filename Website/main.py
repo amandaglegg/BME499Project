@@ -39,6 +39,8 @@ def result():
     elif Backend.heartdisease() == 1:
         message = 'Submitted Successfully. You are at risk for heart disease.'
     if request.method == 'POST':
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv') #delete the ecg files
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv')
         return redirect(f'/') #go to homepage
     else: 
         return render_template('Result.html', message=message)
@@ -72,8 +74,8 @@ def form():
             if sex == 'M':
                 sex=1
             else: sex=0  #for now, deal with intersex/other by binning as F.  
-            #write form data to a .csv file:
-            with open('sampleform.csv', 'w', newline='') as csvfile:
+            #write form data to a .csv file in Website folder:
+            with open('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/sampleform.csv', 'w', newline='') as csvfile:
                 formdata = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 formdata.writerow(['age', 'sex', 'chest pain type', 'resting bp s', 'max heart rate', 'exercise angina'])
                 formdata.writerow([request.form.get('age'), sex, ChestPainType, request.form.get('bp'), request.form.get('HR'), cp2])
@@ -85,9 +87,8 @@ def form():
                 ECG_rest.save(ECG_rest.filename) #save locally
             if ECG_exercise.filename !='':
                 ECG_exercise.save(ECG_exercise.filename)
-            os.rename(ECG_rest.filename, 'pre_exercise_ecg.csv') #change the filename so it's easy to retrieve
-            os.rename(ECG_exercise.filename, 'post_exercise_ecg.csv')
-
+            os.rename(ECG_rest.filename, 'C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv') #change the filename and move to Website folder
+            os.rename(ECG_exercise.filename, 'C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv')
             return redirect ('/Result/')  #after form submission and input checking, send user to the Results page.
         else:
             message = "invalid input.  Please try again"
