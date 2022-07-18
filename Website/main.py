@@ -5,7 +5,7 @@
 
 from asyncio.windows_events import NULL
 from pickle import TRUE
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for 
 import Backend
 import csv
 import os 
@@ -32,18 +32,6 @@ def consent():
             message = 'you must consent to continue'
 
     return render_template('Consent.html', message=message) 
-@app.route('/Result/', methods=['get', 'post'])
-def result():
-    if Backend.heartdisease() == 0: 
-        message = 'Submitted Successfully. You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
-    elif Backend.heartdisease() == 1:
-        message = 'Submitted Successfully. You are at risk for heart disease.'
-    if request.method == 'POST':
-        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv') #delete the ecg files
-        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv')
-        return redirect(f'/') #go to homepage
-    else: 
-        return render_template('Result.html', message=message)
 
 @app.route('/SurveyDemo/', methods=['get', 'post'])
 def form():
@@ -95,7 +83,25 @@ def form():
         
     return render_template('SurveyDemo.html', message=message)
 
-
+@app.route('/Result/', methods=['get', 'post'])
+def result():
+    if Backend.heartdisease() == 0: 
+        message = 'Submitted Successfully. You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
+    elif Backend.heartdisease() == 1:
+        message = 'Submitted Successfully. You are at risk for heart disease.'
+    if request.method == 'POST':
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv') #delete the ecg files
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv')
+        return redirect(f'/') #go to homepage
+    else: 
+        with open('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/sampleform.csv', 'r') as sampleform:
+            row=[] #intialize lists
+            fields=[]
+            survey=csv.reader(sampleform) #creates a csvreader object
+            fields=next(survey) #extract field names from first row
+            row=next(survey) #get row data
+            goodhr=220-int(row[0]) #calculate ideal hr from age
+        return render_template('Result.html', message=message, age=row[0], restingbp=row[3], hr=row[4], goodhr=goodhr) #render the results page and pass in survey data
 #...
 
 #start the local development server - if we get a webserver running comment this part out

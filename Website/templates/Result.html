@@ -18,12 +18,19 @@
 	</div>
 
 	<div class="container">
-		<h3> Detailed Results:</h3>
+		<h3> Detailed Results</h3>
 	<ul>
-		<li>Your heart rate is ___.  Average heart rate for your age is ___</li>
-		<li>Your blood pressure is ____. Average blood pressure for your age group is ____</li>
+		<li>You are {{age}} years old.  Risk for heart disease increases with age.</li>
+		<li>If you experience chest pain, contact your doctor.</li>
+		<li>Your blood pressure is {{restingbp}}. The normal range for blood pressure is 90-120.</li>
+		<li>Your max heart rate is {{hr}}.  The normal range for your age is {{goodhr}} or below. </li>
+		
 	</ul>
 	</div>
+
+	<div class="container">
+		<h3> ECG Results</h3>
+		<p><a href="#" class="image"><img src="{{url_for('static', filename='images/HealthyECG.jpg')}}" alt="A typical ECG. Image courtesy of https://thephysiologist.org/" /></a></p>
 	<div class="container">
 		<form id="consent" action="" method="post">
 	<input type="submit" value="Home"></form>
@@ -42,13 +49,13 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="static/js/jquery.min.js"></script>
+			<script src="static/js/jquery.scrollex.min.js"></script>
+			<script src="static/js/jquery.scrolly.min.js"></script>
+			<script src="static/js/browser.min.js"></script>
+			<script src="static/js/breakpoints.min.js"></script>
+			<script src="static/js/util.js"></script>
+			<script src="static/js/main.js"></script>
 
 	</body>
 </html>
