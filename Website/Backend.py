@@ -220,6 +220,18 @@ def heartdisease ():
         risk = 0
     return risk
 
+
+#%%plot function 
+def ecg_plot(ecg_path):
+    df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
+    freq = len(df)/30
+    df = df/1000
+    df = df.iloc[:,0].to_numpy()
+    ecg = df
+    _, rpeaks = nk.ecg_peaks(ecg, sampling_rate = freq)
+    signal, waves = nk.ecg_delineate(ecg, rpeaks, sampling_rate = freq, method="dwt", show=True, show_type ="all")
+    plt.savefig('Peaks.jpeg')
+
 #%% Test code (Comment out for actual use)
 # risk = heartdisease()
 # if risk == 1:
