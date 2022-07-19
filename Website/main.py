@@ -100,8 +100,26 @@ def result():
             survey=csv.reader(sampleform) #creates a csvreader object
             fields=next(survey) #extract field names from first row
             row=next(survey) #get row data
+            if int(row[2]) > 0: #if there is any chest pain
+                painmessage='You reported some chest pain. Contact your doctor for further investigation.'
+            else: painmessage='Other risk factors for heart disease include smoking, drinking alcohol, diabetes, poor diet and low exercise'
+            if int(row[3]) < 90:
+                bpmessage='You have low blood pressure and might be at risk for hypotension. You may feel lightheaded, weak, dizzy, or even faint. It can be caused by not getting enough fluids, blood loss, some medical conditions, or medications, including those prescribed for high blood pressure.'
+            elif int(row[3]) <120:
+                bpmessage='Your blood pressure is in the normal range.'
+            elif int(row[3]) <129:
+                bpmessage='Your blood pressure is elevated.  People with elevated blood pressure are likely to develop high blood pressure unless steps are taken to control the condition.'
+            elif int(row[3])<139:
+                bpmessage='You might be at risk for Hypertension Stage 1.  Doctors are likely to prescribe lifestyle changes and may consider adding blood pressure medication based on your risk of atherosclerotic cardiovascular disease (ASCVD), such as heart attack or stroke.'
+            elif int(row[3])<180:
+                bpmessage='You might be at risk for Hypertension Stage 2.  Doctors are likely to prescribe a combination of blood pressure medications and lifestyle changes.'
+            else: bpmessage='You might be at risk for Hypertensive Crisis - wait five minutes and test your blood pressure again.  If it remains high, seek medical attention immediately. If your blood pressure is higher than 180/120 mm Hg and you are experiencing signs of possible organ damage such as chest pain, shortness of breath, back pain, numbness/weakness, change in vision or difficulty speaking, do not wait to see if your pressure comes down on its own. Call 911.'
+            
             goodhr=220-int(row[0]) #calculate ideal hr from age
-        return render_template('Result.html', message=message, age=row[0], restingbp=row[3], hr=row[4], goodhr=goodhr) #render the results page and pass in survey data
+            if int(row[4]) < goodhr:
+                hrmessage='Your heart rate is in the healthy range.'
+            else: hrmessage='Your heart rate is above the healthy limit: consult a doctor or consider lifestyle changes.'
+        return render_template('Result.html', message=message, age=row[0], restingbp=row[3], hr=row[4], goodhr=goodhr, bpmessage=bpmessage, hrmessage=hrmessage, painmessage=painmessage) #render the results page and pass in survey data
 #...
 
 #start the local development server - if we get a webserver running comment this part out

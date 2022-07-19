@@ -9,11 +9,14 @@
 	
 	<body class="is-preload">
 	<div class="container">
+		<section id="Result">
 	<h3> Your Results: </h3>
 		{% if message %}
         <p>{{ message }}</p>
     	{% endif %}
-	<section id="Result">
+	</section>
+
+	<section id="Details">
 	
 	</div>
 
@@ -21,20 +24,25 @@
 		<h3> Detailed Results</h3>
 	<ul>
 		<li>You are {{age}} years old.  Risk for heart disease increases with age.</li>
-		<li>If you experience chest pain, contact your doctor.</li>
-		<li>Your blood pressure is {{restingbp}}. The normal range for blood pressure is 90-120.</li>
+		<li>Your blood pressure is {{restingbp}}. {{bpmessage}}</li>
 		<li>Your max heart rate is {{hr}}.  The normal range for your age is {{goodhr}} or below. </li>
-		
+		<li>{{hrmessage}}</li>
+		<li>{{painmessage}}</li>
 	</ul>
-	</div>
+	</div></section>
 
 	<div class="container">
 		<h3> ECG Results</h3>
-		<p><a href="#" class="image"><img src="{{url_for('static', filename='images/HealthyECG.jpg')}}" alt="A typical ECG. Image courtesy of https://thephysiologist.org/" /></a></p>
-	<div class="container">
+		<p>Your ECG (pre exercise): <br>
+			<a href="#" class="image"><img src="{{url_for('static', filename='images/HealthyECG.jpg')}}" width=50% alt="A typical ECG. Image courtesy of https://thephysiologist.org/" /></a>
+			A typical ECG: <br>
+			<a href="#" class="image"><img src="{{url_for('static', filename='images/HealthyECG.jpg')}}" width=50% alt="A typical ECG. Image courtesy of https://thephysiologist.org/" /></a></p>
+	The most important part of your ECG is the ST segment.  If the segment is sharply sloped up or down, you may need to consult a doctor.
+	
+			<div class="container">
 		<form id="consent" action="" method="post">
 	<input type="submit" value="Home"></form>
-</div>
+</div></section>
 		
 
 				<!-- Footer -->
