@@ -25,7 +25,7 @@ def STprocess(ecg, freq):
     # Extract R-peaks locations
     _, rpeaks = nk.ecg_peaks(ecg, sampling_rate = freq)
     # Delineate
-    signal, waves = nk.ecg_delineate(ecg, rpeaks, sampling_rate = freq, method="dwt", show=False, show_type='all')
+    signal, waves = nk.ecg_delineate(ecg, rpeaks, sampling_rate = freq, method="dwt", show=True, show_type='all')
     #convert dictionary to list
     data = list(rpeaks.values())
     #removes the sampling rate from the list
@@ -157,7 +157,7 @@ def heartdisease ():
     our_path = os.path.abspath(os.curdir)
     ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
     user_path = our_path + '/datasets/fake_user_data.csv'
-    model_path = our_path + '/code/heart_disease_ETC.pkl'
+    model_path = our_path + '/code/ETC_model_not_normalized.pkl'
     preexercise_path = our_path + '/datasets/pre_exercise_ecg.csv'
     postexercise_path = our_path + '/datasets/post_exercise_ecg.csv'
 
@@ -198,8 +198,8 @@ def heartdisease ():
     and outputs a list with processed features, all in numerical values
     '''
     df1 = pd.read_csv(user_path) #this csv is the one with the age,sex etc..
-    df1.insert(7,'oldpeak', OP, allow_duplicates = False)
-    df1.insert(8, 'ST_Slope', stslope, allow_duplicates = False)
+    df1.insert(6,'oldpeak', OP, allow_duplicates = False)
+    df1.insert(7, 'ST_Slope', stslope, allow_duplicates = False)
     df1 = df1.dropna(how='all', axis='columns')
 
     data = df1.values.tolist()
@@ -220,9 +220,30 @@ def heartdisease ():
         risk = 0
     return risk
 
+
+#%%plot function 
+def ecg_plot(ecg_path):
+    df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
+    freq = len(df)/30
+    df = df/1000
+    df = df.iloc[:,0].to_numpy()
+    ecg = df
+    _, rpeaks = nk.ecg_peaks(ecg, sampling_rate = freq)
+    signal, waves = nk.ecg_delineate(ecg, rpeaks, sampling_rate = freq, method="dwt", show=True, show_type ="all")
+    plt.savefig('Peaks.jpeg')
+    
+#%%Testing the function
+our_path = os.path.abspath(os.curdir)
+ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
+
+ecg_plot(ecg_path)
+
+#will need to write  a a line of code to delete the file
+
+
 #%% Test code (Comment out for actual use)
-# risk = heartdisease()
-# if risk == 1:
+risk = heartdisease()
+if risk == 1:
     print("Oh no, you are at risk for heart disease")
-# else:
+else:
     print("Don't worry, you're all good, little to no risk of heart disease for you!")
