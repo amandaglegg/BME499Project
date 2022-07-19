@@ -85,6 +85,10 @@ def form():
 
 @app.route('/Result/', methods=['get', 'post'])
 def result():
+    our_path = os.path.abspath(os.curdir)
+    preexercise_path = our_path + '/Website/pre_exercise_ecg.csv'
+    Backend.ecg_plot(preexercise_path)
+    
     if Backend.heartdisease() == 0: 
         message = 'Submitted Successfully. You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
     elif Backend.heartdisease() == 1:
@@ -92,7 +96,7 @@ def result():
     if request.method == 'POST':
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv') #delete the ecg files
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv')
-        os.remove("C:////Users/vh1_2/Documents/GitHub/BME499Project/Website/Peaks.jpeg")
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Peaks.jpeg')
         return redirect(f'/') #go to homepage
     else: 
         with open('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/sampleform.csv', 'r') as sampleform:
