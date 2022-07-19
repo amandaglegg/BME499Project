@@ -92,6 +92,7 @@ def result():
     if request.method == 'POST':
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv') #delete the ecg files
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv')
+        os.remove("C:////Users/vh1_2/Documents/GitHub/BME499Project/Website/Peaks.jpeg")
         return redirect(f'/') #go to homepage
     else: 
         with open('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/sampleform.csv', 'r') as sampleform:
