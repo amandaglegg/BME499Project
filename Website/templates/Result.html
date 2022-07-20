@@ -1,5 +1,17 @@
 <!DOCTYPE HTML>
 <html>
+<style>
+    .red {
+        color: red;
+    }
+
+    .green {
+        color: green;
+    }
+	.black{
+		color: #888;
+	}
+</style>
 	<head>
 		<title>HealthApp Demo Results</title>
 		<meta charset="utf-8" />
@@ -22,15 +34,18 @@
 
 	<div class="container">
 		<h3> Detailed Results</h3>
-	<ul class="feature-icons">
+	<ul class="feature-icons" >
+		
 		<li class="icon solid fa-chart-line"> You are {{age}} years old.  Risk for heart disease increases with age.</li>
 		<li></li>
 		<li class= "icon solid fa-heart"> Your systolic blood pressure is {{restingbp}}. </li> 
-		<li>{{bpmessage}}</li>
+		<li class="{{'green' if bpmessage == 'Your blood pressure is in the normal range.' else 'red'}}">{{bpmessage}}</li>
 		<li class="icon solid fa-heart"> Your max heart rate is {{hr}}.  The normal range for your age is {{goodhr}} or below. </li>
-		 <li >{{hrmessage}} </li>
-		<li class="icon solid fa-heart">{{painmessage}}</li>
+		 <li class="{{'red' if hrmessage == 'Your heart rate is above the healthy limit: consult a doctor or consider lifestyle changes.' else 'green'}}"> {{hrmessage}} </li>
+		<li class="icon solid fa-heart {{'red' if painmessage == 'You reported some chest pain. Contact your doctor for further investigation.' else 'black'}}">{{painmessage}}</li>
+		
 	</ul>
+	
 	</div></section>
 
 	<div class="container">
@@ -40,9 +55,9 @@
 				<th>A Typical Healthy ECG:</th>
 			</tr>
 			<tr>
-			<th><a href="#" class="image"><img src="{{url_for('static', filename='Peaks.jpeg')}}" width=400 height=240 alt="Rest ECG." /></a>
+			<th><a href="#" class="image"><img src="{{url_for('static', filename='Peaks.jpeg')}}" width=450 height=250 alt="Rest ECG." /></a>
 			</th>
-			<th><a href="#" class="image"><img src="{{url_for('static', filename='images/ECG_annotated.jpg')}}" width=360 alt="A typical ECG. Image courtesy of https://thephysiologist.org/" /></a></p>
+			<th><a href="#" class="image"><img src="{{url_for('static', filename='images/ECG_annotated.jpg')}}" width=360 height=220 alt="A typical ECG. Image courtesy of https://thephysiologist.org/" /></a></p>
 			</th>
 			</tr>
 			<tr>The most important part of your ECG is the ST segment.  If the segment is sharply sloped up or down, you may need to consult a doctor.</tr>

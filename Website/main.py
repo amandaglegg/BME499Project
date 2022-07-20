@@ -107,7 +107,7 @@ def result():
             row=next(survey) #get row data
             if int(row[2]) > 1: #if there is any chest pain
                 painmessage='You reported some chest pain. Contact your doctor for further investigation.'
-            else: painmessage='Other risk factors for heart disease include smoking, drinking alcohol, diabetes, poor diet and lack of exercise'
+            else: painmessage='Other risk factors for heart disease include smoking, drinking alcohol, diabetes, poor diet and lack of exercise.'
             if int(row[3]) < 90:
                 bpmessage='You have low blood pressure and might be at risk for hypotension. You may feel lightheaded, weak, dizzy, or even faint. It can be caused by not getting enough fluids, blood loss, some medical conditions, or medications, including those prescribed for high blood pressure.'
             elif int(row[3]) <120:
