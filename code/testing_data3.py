@@ -138,13 +138,48 @@ RFAcc = accuracy_score(y_pred_RF, y_test)
 # ---8.7 Applying ET ---
 #ETclassifier = ExtraTreesClassifier(n_estimators=200, max_depth=70, max_features=11, min_samples_leaf=2, min_samples_split=2)
 # Hypertuned
-ETclassifier = ExtraTreesClassifier(bootstrap = True, n_estimators= 400, random_state = 5, max_depth = 40)
-
+# ETclassifier = ExtraTreesClassifier(bootstrap = True, n_estimators= 400, random_state = 5, max_depth = 40)
+ETclassifier = ExtraTreesClassifier(n_estimators=15, random_state=47)
 ETclassifier.fit(x_train, y_train)
 y_pred_ET = ETclassifier.predict(x_test)
 
 # --- ET Accuracy ---
 ETAcc = accuracy_score(y_pred_ET, y_test)
+'''
+# --- Performance Evaluation ---
+print('\n\033[1m'+'.: Performance Evaluation'+'\033[0m')
+print('*' * 26)
+# fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(14, 10))
+fig, ax1 = plt.subplots(1, figsize= (14,10))
+
+# --- ET Confusion Matrix ---
+etcmatrix = ConfusionMatrix(ETclassifier, ax=ax1, cmap='PuRd',
+                            title='Extra Tree Classifier Confusion Matrix')
+etcmatrix.fit(x_train, y_train)
+etcmatrix.score(x_test, y_test)
+etcmatrix.finalize()
+
+# --- ET ROC AUC ---
+etrocauc = ROCAUC(ETclassifier, classes=['False', 'True'], ax=ax2,
+                  title='Extra Tree Classifier ROC AUC Plot')
+etrocauc.fit(x_train, y_train)
+etrocauc.score(x_test, y_test)
+etrocauc.finalize()
+
+# --- ET Learning Curve ---
+etlc = LearningCurve(ETclassifier, ax=ax3, title='Extra Tree Classifier Learning Curve')
+etlc.fit(x_train, y_train)
+etlc.finalize()
+
+# --- ET Precision Recall Curve ---
+etpc = PrecisionRecallCurve(ETclassifier, ax=ax1, ap_score=True, iso_f1_curves=False, 
+                            title='Extra Tree Classifier Precision-Recall Curve')
+etpc.fit(x_train, y_train)
+etpc.score(x_test, y_test)
+etpc.finalize()
+
+plt.tight_layout();
+'''
 
 # %%
 # --- 8.8 Applying Gradient Boosting ---
@@ -189,13 +224,13 @@ prediction.head().style.background_gradient(cmap='Reds').hide_index().set_proper
 # --- Export Prediction Result into csv File ---
 prediction.to_csv('prediction_heart_disease.csv', index=False)
 
-#%% # --- Export hypertuned model to Pickle File ---
-file = open('ETC_model_not_normalized.pkl', 'wb')
+#%% # --- Export not tuned ET model to Pickle File ---
+file = open('ETC_model.pkl', 'wb')
 pickle.dump(ETclassifier, file)
 file.close()
 
 #%% Testing
-infile = open('ETC_model_not_normalized.pkl','rb')
+infile = open('ETC_model.pkl','rb')
 model = pickle.load(infile)
 infile.close()
 
@@ -216,4 +251,16 @@ if result[0] == 1:
 else:
    print('\033[1m' + '.:. Heart Disease Not Detected!.:.' + '\033[0m')
 
+#%% Add the heat map
+black_grad = ['#100C07', '#3E3B39', '#6D6A6A', '#9B9A9C', '#CAC9CD']
+# pd.DataFrame(df, index = ["Age","Sex","Chest Pain Type", "Resting Systolic Blood Pressure","Max Heart Rate","Exercise Angina", "Old Peak","ST Slope","Target"], columns= ["Age","Sex","Chest Pain Type", "Resting Systolic Blood Pressure","Max Heart Rate","Exercise Angina", "Old Peak","ST Slope","Target"])
+plt.figure(figsize=(14, 9))
+sns.set(font_scale=1.4)
+sns.heatmap(df.corr(), annot=True, cmap='OrRd', linewidths=0.1)
+plt.suptitle('Correlation Map of Numerical Variables', fontweight='heavy', 
+             x=0.03, y=0.98, ha='left', fontsize='16', fontfamily='sans-serif', 
+             color=black_grad[0])
+# plt.title('Resting blood pressure and "oldpeak" have moderate relationship with age.', 
+          # fontsize='10', fontfamily='sans-serif', loc='left', color=black_grad[1])
+plt.tight_layout(rect=[0, 0.04, 1, 1.01])
 # %%
