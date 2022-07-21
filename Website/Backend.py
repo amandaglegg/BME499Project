@@ -1,5 +1,3 @@
-#Clean working ECG Processing and Model
-
 #%%
 #ECG Processing and features
 import pathlib
@@ -158,10 +156,10 @@ def heartdisease ():
     ecg_path = our_path + '/Website/ecg_2020-06-01.csv'
     user_path = our_path + '/Website/sampleform.csv'
     model_path = our_path + '/Website/ETC_model.pkl'
-    preexercise_path = our_path + '/Website/pre_exercise_ecg.csv'
-    postexercise_path = our_path + '/Website/post_exercise_ecg.csv'
-
-    df = pd.read_csv(preexercise_path, header=9, usecols = ['Unit'])
+    preexercise_path = our_path + '/Website/pre_exercise_ecg.txt'
+    postexercise_path = our_path + '/Website/post_exercise_ecg.txt'
+    
+    df = pd.read_csv(preexercise_path)
 
     # calculate sampling frequency and period for pre exercise data
     real_freq = len(df)/30
@@ -170,7 +168,7 @@ def heartdisease ():
     df = df.iloc[:,0].to_numpy()
     
     # Calculating sampling frequency and processing post exercise dataset
-    dft = pd.read_csv(postexercise_path, header=9, usecols = ['Unit'])
+    dft = pd.read_csv(postexercise_path)
     real_freq2 = len(dft)/30
     # print("post exercise df",dft)
     dft = dft/1000
@@ -235,6 +233,7 @@ def ecg_plot(ecg_path):
 #%% Test code (Comment out for actual use)
 # risk = heartdisease()
 # if risk == 1:
-   # print("Oh no, you are at risk for heart disease")
+  # print("Oh no, you are at risk for heart disease")
 # else:
    # print("Don't worry, you're all good, little to no risk of heart disease for you!")
+

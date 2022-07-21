@@ -75,8 +75,8 @@ def form():
                 ECG_rest.save(ECG_rest.filename) #save locally
             if ECG_exercise.filename !='':
                 ECG_exercise.save(ECG_exercise.filename)
-            os.rename(ECG_rest.filename, 'C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv') #change the filename and move to Website folder
-            os.rename(ECG_exercise.filename, 'C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv')
+            os.rename(ECG_rest.filename, 'C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.txt') #change the filename and move to Website folder
+            os.rename(ECG_exercise.filename, 'C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.txt')
             return redirect ('/Result/')  #after form submission and input checking, send user to the Results page.
         else:
             message = "invalid input.  Please try again"
@@ -94,8 +94,8 @@ def result():
     elif Backend.heartdisease() == 1:
         message = 'Submitted Successfully. You are at risk for heart disease.'
     if request.method == 'POST':
-        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.csv') #delete the ecg files
-        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.csv')
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.txt') #delete the ecg files
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.txt')
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Peaks.jpeg')
         return redirect(f'/') #go to homepage
     else: 
