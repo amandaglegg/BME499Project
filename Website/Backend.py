@@ -157,7 +157,7 @@ def heartdisease ():
     our_path = os.path.abspath(os.curdir)
     ecg_path = our_path + '/Website/ecg_2020-06-01.csv'
     user_path = our_path + '/Website/sampleform.csv'
-    model_path = our_path + '/Website/ETC_model_not_normalized.pkl'
+    model_path = our_path + '/Website/ETC_model.pkl'
     preexercise_path = our_path + '/Website/pre_exercise_ecg.csv'
     postexercise_path = our_path + '/Website/post_exercise_ecg.csv'
 

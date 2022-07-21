@@ -155,13 +155,13 @@ def heartdisease ():
     # df = pd.read_csv("D:/Documents/4B/BME499/github/BME499Project/datasets/ecg_2020-06-01.csv", header=9, usecols = ['Unit'])
     os.chdir("..") #move up one directory to BME 499
     our_path = os.path.abspath(os.curdir)
-    ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
+    ecg_path = our_path + '/datasets/resting_ECG.txt'
     user_path = our_path + '/datasets/fake_user_data.csv'
-    model_path = our_path + '/code/ETC_model_not_normalized.pkl'
+    model_path = our_path + '/ETC_model_not_normalized.pkl'
     preexercise_path = our_path + '/datasets/pre_exercise_ecg.csv'
-    postexercise_path = our_path + '/datasets/post_exercise_ecg.csv'
-
-    df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
+    postexercise_path = our_path + '/datasets/exercise_ECG.txt'
+    
+    df = pd.read_csv(ecg_path)
 
     # calculate sampling frequency and period for pre exercise data
     real_freq = len(df)/30
@@ -170,7 +170,7 @@ def heartdisease ():
     df = df.iloc[:,0].to_numpy()
     
     # Calculating sampling frequency and processing post exercise dataset
-    dft = pd.read_csv(postexercise_path, header=9, usecols = ['Unit'])
+    dft = pd.read_csv(postexercise_path)
     real_freq2 = len(dft)/30
     # print("post exercise df",dft)
     dft = dft/1000
@@ -239,7 +239,6 @@ ecg_path = our_path + '/datasets/ecg_2020-06-01.csv'
 ecg_plot(ecg_path)
 
 #will need to write  a a line of code to delete the file
-
 
 #%% Test code (Comment out for actual use)
 risk = heartdisease()
