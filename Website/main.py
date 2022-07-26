@@ -86,7 +86,7 @@ def form():
 @app.route('/Result/', methods=['get', 'post'])
 def result():
     our_path = os.path.abspath(os.curdir)
-    preexercise_path = our_path + '/Website/pre_exercise_ecg.csv'
+    preexercise_path = our_path + '/Website/pre_exercise_ecg.txt'
     Backend.ecg_plot(preexercise_path)
     
     if Backend.heartdisease() == 0: 

@@ -221,7 +221,7 @@ def heartdisease ():
 
 #%%plot function 
 def ecg_plot(ecg_path):
-    df = pd.read_csv(ecg_path, header=9, usecols = ['Unit'])
+    df = pd.read_csv(ecg_path)
     freq = len(df)/30
     df = df/1000
     df = df.iloc[:,0].to_numpy()
