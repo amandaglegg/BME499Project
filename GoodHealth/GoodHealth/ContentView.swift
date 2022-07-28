@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  GoodHealth
 //
-//  Created by Derrick Ushko on 2022-06-14.
+//  Created by Derrick Ushko & Amanda Glegg on 2022-07-25.
 //
 
 import SwiftUI
@@ -23,6 +23,10 @@ struct ContentView: View {
     @State var restingHeartRateStatistics = Statistic(current: 0, average: 0, deviation: 0, zScore: 0, change: 0)
     @State var heartRateVariabilityStatistics = Statistic(current: 0, average: 0, deviation: 0, zScore: 0, change: 0)
     @State var respiratoryRateStatistics = Statistic(current: 0, average: 0, deviation: 0, zScore: 0, change: 0)
+    
+    @State private var file: ECGDocument = ECGDocument(sample: "")
+    @State private var isExportingExerciseECG: Bool = false
+    @State private var isExportingRestingECG: Bool = false
     
     init() {
         healthStore = HealthStore()
@@ -146,43 +150,25 @@ struct ContentView: View {
     
     var body: some View {
         
-        /* NavigationView {
-            
-            List {
-                ViewRestingHeartRate(statistic: restingHeartRateStatistics)
-                    .listRowInsets(EdgeInsets())
-                ViewHeartRateVariability(statistic: heartRateVariabilityStatistics)
-                    .listRowInsets(EdgeInsets())
-                ViewRespiratoryRate(statistic: respiratoryRateStatistics)
-                    .listRowInsets(EdgeInsets())
-            }
-            .navigationTitle("Vitals")
-        } */
-        
-        /* ScrollView(.vertical) {
-            VStack(alignment: .leading, spacing: 25) {
-                Text("Vitals")
-                    .font(.system(size: 32, weight: .bold, design: .default))
-                ViewRestingHeartRate(statistic: restingHeartRateStatistics)
-                ViewHeartRateVariability(statistic: heartRateVariabilityStatistics)
-                ViewRespiratoryRate(statistic: respiratoryRateStatistics)
-                Text("About")
-                    .font(.system(size: 32, weight: .bold, design: .default))
-                AboutHeartRate()
-            }
-            .padding()
-        } */
-        
         TabView {
             
             ScrollView(.vertical) {
                 
                 VStack(alignment: .leading, spacing: 25) {
+                    
                     Text("Vitals")
                         .font(.system(size: 32, weight: .bold, design: .default))
+                    
                     ViewRestingHeartRate(statistic: restingHeartRateStatistics)
                     ViewHeartRateVariability(statistic: heartRateVariabilityStatistics)
                     ViewRespiratoryRate(statistic: respiratoryRateStatistics)
+                    
+                    if (heartRateVariabilityStatistics.zScore > 1 &&
+                        heartRateVariabilityStatistics.zScore < 0.5 &&
+                        respiratoryRateStatistics.zScore > 1.5) {
+                        ViewWarning()
+                    }
+                    
                     Text("About")
                         .font(.system(size: 32, weight: .bold, design: .default))
                     
@@ -194,50 +180,192 @@ struct ContentView: View {
                         }
                     }
                     
+                    HStack (alignment: .center, spacing: 1){
+                        Text("Learn more about health data at ")
+                        Button("Cleveland Clinic") {
+                            if let url = URL(string: "https://my.clevelandclinic.org/health") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                        .font(.system(size: 14, weight: .bold))
+                    }
+                    .font(.system(size: 14, weight: .regular, design: .default))
+                    .foregroundColor(.gray)
+                    .padding()
+                    
                 }
                 .padding()
             }
             
             .tabItem {
-                Label("Home", systemImage: "heart.text.square.fill")
+                Label("Health Trends", systemImage: "heart.text.square.fill")
             }
-            
-            VStack {
-                
-                Button {
-                    healthStore?.firstElectrocardiogram { firstVoltageCollection in
-                        print(firstVoltageCollection ?? 0)
+             
+            ScrollView (.vertical){
+                VStack (alignment: .leading, spacing: 20){
+                    
+                    
+                    Text("Heart Disease \nPrediction")
+                        .font(.system(size: 32, weight: .bold, design: .default))
+                        .frame(alignment: .leading)
+                    
+                    
+                    HStack (alignment: .top, spacing: 10){
+                        Text("1.")
+                        VStack (alignment: .leading){
+                            Text("Using your Apple Watch, record your ''Resting ECG'' while seated")
+                            HStack (spacing: 1){
+                                Text("Learn how to record an ECG ")
+                                Button("here") {
+                                    if let url = URL(string: "https://support.apple.com/en-ca/HT208955") {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                                .font(.system(size: 18, weight: .bold, design: .default))
+                            }
+                            .foregroundColor(.gray)
+                            .padding(.top, 5)
+                        }
                     }
-                } label: {
-                    Text("1st ECG")
-                        .padding(20)
-                }
-                .contentShape(Rectangle())
-                .font(.system(size: 18, weight: .regular, design: .default))
-                .foregroundColor(.white)
-                .background(.pink)
-                .cornerRadius(10)
-                
-                Button {
-                    healthStore?.firstElectrocardiogram { firstVoltageCollection in
-                        print(firstVoltageCollection ?? 0)
+
+                    HStack (alignment: .top){
+                        Text("2.")
+                        Text("Jog on the spot for 1 minute")
                     }
-                } label: {
-                    Text("2nd ECG")
-                        .padding(20)
+
+                    HStack (alignment: .top){
+                        Text("3.")
+                        Text("Record your ''Exercise ECG''")
+                    }
+                    
+                    HStack (alignment: .top){
+                        Text("4.")
+                        Text("Upload ECGs (press buttons)")
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        Button {
+                            healthStore?.secondElectrocardiogram { secondVoltageCollection in
+                                var csvString = "\("Lead I")\n"
+                                for reading in secondVoltageCollection! {
+                                    let microvoltage = Double(reading * 1000000)
+                                    csvString = csvString.appending("\(microvoltage)\n")
+                                }
+                                isExportingRestingECG = true
+                                file.sample = csvString
+                            }
+                            
+                        } label: {
+                            Text("Resting ECG")
+                        }
+                        
+                        .contentShape(Rectangle())
+                        .frame(width: 150, height: 65, alignment: .center)
+                        .font(.system(size: 18, weight: .regular, design: .default))
+                        .foregroundColor(.white)
+                        .background(.pink)
+                        .cornerRadius(10)
+                        .fileExporter(
+                              isPresented: $isExportingRestingECG,
+                              document: file,
+                              contentType: .plainText,
+                              defaultFilename: "resting_ECG"
+                          ) { result in
+                              if case .success = result {
+                                  print("Export completed.")
+                              } else {
+                                  print("Export failed.")
+                              }
+                          }
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        Button {
+                            healthStore?.firstElectrocardiogram { firstVoltageCollection in
+                                var csvString = "\("Lead I")\n"
+                                for reading in firstVoltageCollection! {
+                                    let microvoltage = Double(reading * 1000000)
+                                    csvString = csvString.appending("\(microvoltage)\n")
+                                }
+                                isExportingExerciseECG = true
+                                file.sample = csvString
+                            }
+                        } label: {
+                            Text("Exercise ECG")
+                        }
+                        .contentShape(Rectangle())
+                        .frame(width: 150, height: 65, alignment: .center)
+                        .font(.system(size: 18, weight: .regular, design: .default))
+                        .foregroundColor(.white)
+                        .background(.pink)
+                        .cornerRadius(10)
+                        .fileExporter(
+                              isPresented: $isExportingExerciseECG,
+                              document: file,
+                              contentType: .plainText,
+                              defaultFilename: "exercise_ECG"
+                          ) { result in
+                              if case .success = result {
+                                  print("Export completed.")
+                              } else {
+                                  print("Export failed.")
+                              }
+                          }
+                        Spacer()
+                    }
+                    
+                    HStack (alignment: .top) {
+                        Text("5.")
+                        Text("Head to our website to get your results")
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        Button {
+                            if let url = URL(string: "https://studentweb.uvic.ca/~vhartman/Capstone%20Website/templates/Consent") {
+                                UIApplication.shared.open(url)
+                            }
+                        } label: {
+                            Text("Take me there!")
+
+                        }
+                        .contentShape(Rectangle())
+                        .frame(width: 150, height: 65, alignment: .center)
+                        .font(.system(size: 18, weight: .regular, design: .default))
+                        .foregroundColor(.white)
+                        .background(.pink)
+                        .cornerRadius(10)
+                        
+                        Spacer()
+                        
+                    }
+                    
+                    HStack (spacing: 1){
+                        Spacer()
+                        Text("")
+                        Button("Click here to learn about our project Health AI Monitoring System") {
+                            if let url = URL(string: "https://studentweb.uvic.ca/~vhartman/Capstone%20Website/templates/") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                        .font(.system(size: 18, weight: .regular, design: .default))
+                        Spacer()
+                    }
+                    .foregroundColor(.gray)
+                    .padding(.top, 5)
                 }
-                .contentShape(Rectangle())
-                .font(.system(size: 18, weight: .regular, design: .default))
-                .foregroundColor(.white)
-                .background(.pink)
-                .cornerRadius(10)
+                .padding(20)
             }
+
             
             .tabItem {
-                Label("ECG", systemImage: "waveform.path.ecg.rectangle.fill")
-                }
+                Label("Heart Disease Predictions", systemImage: "waveform.path.ecg.rectangle.fill")
+            }
+            
         }
-
         
         .onAppear {
             
@@ -288,22 +416,6 @@ struct ContentView: View {
                                 //print(respiratoryRateStatistics)
                             }
                         }
-                        
-                        /* print("\n Hello \n")
-                        
-                        healthStore.firstElectrocardiogram { firstVoltageCollection in
-                            
-                            print(firstVoltageCollection ?? 0)
-                            
-                        }
-                        
-                        print("\n Hello again :) \n")
-                        
-                        healthStore.secondElectrocardiogram { secondVoltageCollection in
-                            
-                            print(secondVoltageCollection ?? 0)
-                            
-                        } */
                     }
                 }
             }

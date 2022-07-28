@@ -21,7 +21,7 @@ struct AboutRespiratoryRate: View {
                 .font(.system(size: 18, weight: .bold, design: .default))
                 .padding(10)
             
-            Text("A person's respiratory rate is the number of breaths you take per minute. The normal respiration rate for an adult at rest is 12 to 20 breaths per minute. A respiration rate under 12 or over 25 breaths per minute while resting is considered abnormal.")
+            Text("A person's respiratory rate is the number of breaths you take per minute. The normal respiration rate for an adult at rest is 12 to 20 breaths per minute.")
                 .font(.system(size: 14, weight: .regular, design: .default))
                 .padding(.leading, 10)
                 .padding(.trailing, 10)

@@ -145,6 +145,10 @@ class HealthStore {
                             firstSamples.append(sampleOne)
                             
                         case .done:
+                            
+                            // export ECG data here
+                            
+                            
                             completion(firstSamples)
                             print("done")
                         @unknown default:

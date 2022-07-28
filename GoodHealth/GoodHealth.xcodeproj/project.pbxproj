@@ -22,6 +22,8 @@
 		496EBEAE285AE76400236C34 /* HeartRateVariability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 496EBEAD285AE76400236C34 /* HeartRateVariability.swift */; };
 		49AA7A7E287FA7AB00763133 /* AboutHeartRateVariability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7A7D287FA7AB00763133 /* AboutHeartRateVariability.swift */; };
 		49AA7A80287FA97500763133 /* AboutRespiratoryRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7A7F287FA97500763133 /* AboutRespiratoryRate.swift */; };
+		49AA7A82287FBB0A00763133 /* ViewWarning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7A81287FBB0A00763133 /* ViewWarning.swift */; };
+		49AA7A842881E07F00763133 /* ECGDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AA7A832881E07F00763133 /* ECGDocument.swift */; };
 		49BF6DE7286AC6FD00601AB4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 496EBEA62859A78F00236C34 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +47,8 @@
 		496EBEAD285AE76400236C34 /* HeartRateVariability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateVariability.swift; sourceTree = "<group>"; };
 		49AA7A7D287FA7AB00763133 /* AboutHeartRateVariability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutHeartRateVariability.swift; sourceTree = "<group>"; };
 		49AA7A7F287FA97500763133 /* AboutRespiratoryRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutRespiratoryRate.swift; sourceTree = "<group>"; };
+		49AA7A81287FBB0A00763133 /* ViewWarning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWarning.swift; sourceTree = "<group>"; };
+		49AA7A832881E07F00763133 /* ECGDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECGDocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,7 @@
 				496EBE942859A64F00236C34 /* GoodHealthApp.swift */,
 				496EBE962859A64F00236C34 /* ContentView.swift */,
 				496EBEA22859A6A100236C34 /* HealthStore.swift */,
+				49AA7A832881E07F00763133 /* ECGDocument.swift */,
 				496EBEA9285A88B300236C34 /* RestingHeartRate.swift */,
 				496EBEAD285AE76400236C34 /* HeartRateVariability.swift */,
 				496EBEAB285A931E00236C34 /* RespiratoryRate.swift */,
@@ -91,6 +96,7 @@
 				49373D622873C70300B188B2 /* ViewRestingHeartRate.swift */,
 				49373D642873E02C00B188B2 /* ViewHeartRateVariability.swift */,
 				49373D662873E1BE00B188B2 /* ViewRespiratoryRate.swift */,
+				49AA7A81287FBB0A00763133 /* ViewWarning.swift */,
 				491C7A6728761FA2001587A9 /* AboutHeartRate.swift */,
 				49AA7A7D287FA7AB00763133 /* AboutHeartRateVariability.swift */,
 				49AA7A7F287FA97500763133 /* AboutRespiratoryRate.swift */,
@@ -191,6 +197,7 @@
 				496EBEAC285A931E00236C34 /* RespiratoryRate.swift in Sources */,
 				496EBEAA285A88B300236C34 /* RestingHeartRate.swift in Sources */,
 				49373D672873E1BE00B188B2 /* ViewRespiratoryRate.swift in Sources */,
+				49AA7A82287FBB0A00763133 /* ViewWarning.swift in Sources */,
 				49373D652873E02C00B188B2 /* ViewHeartRateVariability.swift in Sources */,
 				491C7A6828761FA2001587A9 /* AboutHeartRate.swift in Sources */,
 				496EBEA32859A6A100236C34 /* HealthStore.swift in Sources */,
@@ -198,6 +205,7 @@
 				49373D632873C70300B188B2 /* ViewRestingHeartRate.swift in Sources */,
 				49AA7A7E287FA7AB00763133 /* AboutHeartRateVariability.swift in Sources */,
 				496EBEAE285AE76400236C34 /* HeartRateVariability.swift in Sources */,
+				49AA7A842881E07F00763133 /* ECGDocument.swift in Sources */,
 				49373D5F2873AF1000B188B2 /* Statistic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,11 +353,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = derrickushko.GoodHealth;
+				PRODUCT_BUNDLE_IDENTIFIER = BME499.Wellness;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -379,11 +387,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = derrickushko.GoodHealth;
+				PRODUCT_BUNDLE_IDENTIFIER = BME499.Wellness;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
