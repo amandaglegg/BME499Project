@@ -126,7 +126,10 @@ DTCAcc = accuracy_score(y_pred_DTC, y_test)
 
 # %%
 # --- 8.6 Applying Random Forest ---
-RFclassifier = RandomForestClassifier(n_estimators=400, max_features=2, min_samples_split=2, bootstrap = True, max_depth = 70, min_samples_leaf = 1)
+# Hypertuned RF
+RFclassifier = RandomForestClassifier(n_estimators=400, max_features=2, min_samples_split=2, bootstrap = True, max_depth = 100, min_samples_leaf = 1)
+# Untuned RF
+# RFclassifier = RandomForestClassifier(n_estimators=400, max_features=2, min_samples_split=2, bootstrap = True, max_depth = 70, min_samples_leaf = 1)
 
 RFclassifier.fit(x_train, y_train)
 y_pred_RF = RFclassifier.predict(x_test)
@@ -134,9 +137,42 @@ y_pred_RF = RFclassifier.predict(x_test)
 # --- Random Forest Accuracy ---
 RFAcc = accuracy_score(y_pred_RF, y_test)
 
+# --- Performance Evaluation ---
+print('\n\033[1m'+'.: Performance Evaluation'+'\033[0m')
+print('*' * 26)
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(14, 10))
+
+# --- Random Forest Confusion Matrix ---
+rfcmatrix = ConfusionMatrix(RFclassifier, ax=ax1, cmap='PuRd',
+                            title='Random Forest Confusion Matrix')
+rfcmatrix.fit(x_train, y_train)
+rfcmatrix.score(x_test, y_test)
+rfcmatrix.finalize()
+
+# --- Random Forest ROC AUC ---
+rccrocauc = ROCAUC(RFclassifier, classes=['False', 'True'], ax=ax2,
+                   title='Random Forest ROC AUC Plot')
+rccrocauc.fit(x_train, y_train)
+rccrocauc.score(x_test, y_test)
+rccrocauc.finalize()
+
+# --- Random Forest Learning Curve ---
+rcclc = LearningCurve(RFclassifier, ax=ax3, title='Random Forest Learning Curve')
+rcclc.fit(x_train, y_train)
+rcclc.finalize()
+
+# --- Random Forest Precision Recall Curve ---
+rcccurve = PrecisionRecallCurve(RFclassifier, ax=ax4, ap_score=True, iso_f1_curves=True, 
+                                title='Random Forest Precision-Recall Curve')
+rcccurve.fit(x_train, y_train)
+rcccurve.score(x_test, y_test)
+rcccurve.finalize()
+
+plt.tight_layout();
+
 # %%
 # ---8.7 Applying ET ---
-#ETclassifier = ExtraTreesClassifier(n_estimators=200, max_depth=70, max_features=11, min_samples_leaf=2, min_samples_split=2)
+# ETclassifier = ExtraTreesClassifier(n_estimators=200, max_depth=70, max_features=11, min_samples_leaf=2, min_samples_split=2)
 # Hypertuned
 # ETclassifier = ExtraTreesClassifier(bootstrap = True, n_estimators= 400, random_state = 5, max_depth = 40)
 ETclassifier = ExtraTreesClassifier(n_estimators=15, random_state=47)
@@ -145,12 +181,11 @@ y_pred_ET = ETclassifier.predict(x_test)
 
 # --- ET Accuracy ---
 ETAcc = accuracy_score(y_pred_ET, y_test)
-'''
+
 # --- Performance Evaluation ---
 print('\n\033[1m'+'.: Performance Evaluation'+'\033[0m')
 print('*' * 26)
-# fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(14, 10))
-fig, ax1 = plt.subplots(1, figsize= (14,10))
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(14, 10))
 
 # --- ET Confusion Matrix ---
 etcmatrix = ConfusionMatrix(ETclassifier, ax=ax1, cmap='PuRd',
@@ -172,14 +207,14 @@ etlc.fit(x_train, y_train)
 etlc.finalize()
 
 # --- ET Precision Recall Curve ---
-etpc = PrecisionRecallCurve(ETclassifier, ax=ax1, ap_score=True, iso_f1_curves=False, 
+etpc = PrecisionRecallCurve(ETclassifier, ax=ax4, ap_score=True, iso_f1_curves=True, 
                             title='Extra Tree Classifier Precision-Recall Curve')
 etpc.fit(x_train, y_train)
 etpc.score(x_test, y_test)
 etpc.finalize()
 
 plt.tight_layout();
-'''
+
 
 # %%
 # --- 8.8 Applying Gradient Boosting ---
