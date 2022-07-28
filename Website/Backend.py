@@ -116,6 +116,7 @@ def PR_baseline(ecg, freq):
     return baseline
 
 def old_peak (rest_STstart, exercise_STstart, rest_baseline, exercise_baseline):
+    elevation = 0
     All_rest = []
     i = 0
     while i < len(rest_STstart):
