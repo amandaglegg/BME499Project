@@ -88,15 +88,17 @@ def result():
     our_path = os.path.abspath(os.curdir)
     preexercise_path = our_path + '/Website/pre_exercise_ecg.txt'
     Backend.ecg_plot(preexercise_path)
-    
-    if Backend.heartdisease() == 0: 
-        message = 'Submitted Successfully. You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
-    elif Backend.heartdisease() == 1:
-        message = 'Submitted Successfully. You are at risk for heart disease.'
+    try: 
+        if Backend.heartdisease() == 0: 
+            message = 'Submitted Successfully. You are not at risk for heart disease.' #after algo integration, add another if else statement here for at risk/not at risk!
+        elif Backend.heartdisease() == 1:
+            message = 'Submitted Successfully. You are at risk for heart disease.'
+    except:
+        message = 'Unable to process your ECG reading, you may need to retake your ECG reading for a clearer result'
     if request.method == 'POST':
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/post_exercise_ecg.txt') #delete the ecg files
         os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/pre_exercise_ecg.txt')
-        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project/Peaks.jpeg')
+        os.remove('C://Users/vh1_2/Documents/GitHub/BME499Project//Website/static/Peaks.jpeg')
         return redirect(f'/') #go to homepage
     else: 
         with open('C://Users/vh1_2/Documents/GitHub/BME499Project/Website/sampleform.csv', 'r') as sampleform:

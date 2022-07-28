@@ -229,7 +229,7 @@ def ecg_plot(ecg_path):
     ecg = df
     _, rpeaks = nk.ecg_peaks(ecg, sampling_rate = freq)
     signal, waves = nk.ecg_delineate(ecg, rpeaks, sampling_rate = freq, method="dwt", show=True, show_type ="all")
-    plt.savefig('Peaks.jpeg')
+    plt.savefig('Website/static/Peaks.jpeg')
 
 #%% Test code (Comment out for actual use)
 # risk = heartdisease()
