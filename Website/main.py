@@ -121,7 +121,7 @@ def result():
             else: bpmessage='You might be at risk for Hypertensive Crisis - wait five minutes and test your blood pressure again.  If it remains high, seek medical attention immediately. If your blood pressure is higher than 180/120 mm Hg and you are experiencing signs of possible organ damage such as chest pain, shortness of breath, back pain, numbness/weakness, change in vision or difficulty speaking, do not wait to see if your pressure comes down on its own. Call 911.'
             
             goodhr=220-int(row[0]) #calculate ideal hr from age
-            if int(row[4]) < goodhr:
+            if int(row[4]) <= goodhr:
                 hrmessage='Your heart rate is in the healthy range.'
             else: hrmessage='Your heart rate is above the healthy limit: consult a doctor or consider lifestyle changes.'
         return render_template('Result.html', message=message, age=row[0], restingbp=row[3], hr=row[4], goodhr=goodhr, bpmessage=bpmessage, hrmessage=hrmessage, painmessage=painmessage) #render the results page and pass in survey data
