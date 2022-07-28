@@ -202,8 +202,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 
 #%%
 # --- running random forest function
-# rf_params = RfhyperParameterTuning(x, y)
-# print(f'These are them params {rf_params}')
+rf_params = RfhyperParameterTuning(x, y)
+print(f'These are them params {rf_params}')
 # %%
 # --- running gradient boosting function
 #rf_params = GBhyperParameterTuning(x, y)
