@@ -37,7 +37,7 @@
 		  <input type="checkbox" name="digitalis"> <label for="digitalis">Digitalis </label><br> 
 		  <input type="checkbox" name="nitro"> <label for="nitro">Nitroglycerine </label><br> 
 		</p>
-		  <label for="bp">Resting blood pressure, in mmHg: </label>
+		  <label for="bp">Resting systolic blood pressure, in mmHg: </label>
 		  <input type="number" name="bp" size="5"><br><br>
 
 		  <label for="bp">Max Heart Rate, in beats per minute (BPM) (if unknown, subtract your age from 220): </label>
@@ -48,42 +48,6 @@
 		<p><label for="sync">Sync Device (currently unavailable): </label><input type="button" value="Sync" name="sync"></p>
           <input type="submit"></form>
 		</div>
-		  <!--<input type="submit" value="submit" id="dl" onclick="submitForm()">
-		  
-        
-		
-		 script to download file as .csv locally.  Use for testing.
-		 <script>
-          //Clear form once submitted
-          function clearForm(){
-              document.getElementById("form").reset();
-          }
-
-          function submitForm() {
-            var formData = $("form").serializeArray();
-            let csv = "data:text/csv;charset=utf-8,"; // accept data as CSV
-
-            formData.forEach(function(item) {
-              csv += item.value + ";"; // concat form value on csv var and add ; to create columns (you can change to , if want)
-            });
-
-            var encodedUri = encodeURI(csv);
-
-            // if you want to download
-            var downloadLink = document.createElement("a");
-            downloadLink.setAttribute("download", "SURVEY.csv");
-            downloadLink.setAttribute("href", encodedUri);
-            document.body.appendChild(downloadLink); // Required for FF
-            downloadLink.click();
-            downloadLink.remove();
-
-            clearForm();
-          }
-        </script> 
-		-->
-
-	
-		
 
 				<!-- Footer -->
 					<section id="footer">
